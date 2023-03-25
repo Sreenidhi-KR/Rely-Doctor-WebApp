@@ -2,8 +2,10 @@ import '../App.css';
 import axios from "axios";
 import AgoraUIKit from "agora-react-uikit";
 import { useEffect, useState } from 'react';
+import authHeader from '../services/auth-header';
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token');
+
 
 const urlBase = "http://localhost:8080/api/v1";
 
@@ -15,9 +17,7 @@ function VideoCall() {
 
 
   const config = {
-  headers: {
-    "ngrok-skip-browser-warning": "true",
-  },
+  headers: authHeader()
   };
   const appId = '5e2ee6c6fc13459caa99cb8c234d42e0';
   const appCertificate = '6529c2900f7442b89b7b46666fdca9de';
@@ -38,6 +38,7 @@ const getDoctor = (setDoctor) => {
     .get(`${urlBase}/doctor/getDoctorById/1`, config)
     .then((json) => {
       setDoctor(json.data);
+      console.log(json.data)
       return json.data;
     })
     .catch((error) => {
@@ -69,6 +70,7 @@ useEffect(() => {
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
+    console.log(doctor[0])
     channelId = channelName;
     let tok = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelId, "", role, privilegeExpiredTs);
     setTokenA(tok);
