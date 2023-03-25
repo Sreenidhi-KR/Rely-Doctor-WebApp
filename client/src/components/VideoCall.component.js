@@ -3,10 +3,13 @@ import axios from "axios";
 import AgoraUIKit from "agora-react-uikit";
 import { useEffect, useState } from 'react';
 import authHeader from '../services/auth-header';
+import { Navigate } from "react-router-dom";
+import AuthService from "../services/auth.service";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token');
 
-
+// const currentUser = authService.getCurrentUser;
+// console.log(currentUser)
 const urlBase = "http://localhost:8080/api/v1";
 
 function VideoCall() {
@@ -14,8 +17,10 @@ function VideoCall() {
   const [tokenA, setTokenA] = useState(0);
   const [doctor, setDoctor] = useState([]);
   const [channelName, setChannelName] = useState("");
-
-
+  
+    const user = AuthService.getCurrentUser();
+    console.log(user.id);
+  
   const config = {
   headers: authHeader()
   };
@@ -35,7 +40,7 @@ const rtcProps = {
 
 const getDoctor = (setDoctor) => {
   axios
-    .get(`${urlBase}/doctor/getDoctorById/1`, config)
+    .get(`${urlBase}/doctor/getDoctorById/${user.id}`, config)
     .then((json) => {
       setDoctor(json.data);
       console.log(json.data)
@@ -70,7 +75,6 @@ useEffect(() => {
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
-    console.log(doctor[0])
     channelId = channelName;
     let tok = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelId, "", role, privilegeExpiredTs);
     setTokenA(tok);
@@ -95,7 +99,7 @@ const callbacks = {
 };
 
 return videoCall ? (
-  <div style={{ display: "flex", width: "100vw", height: "100vh", border: "5px solid dodgerblue", borderRadius: "10px"}}>
+  <div style={{ display: "flex", marginLeft:"400px",marginTop:"20px",width: "60vw", height: "90vh", border: "5px solid dodgerblue", borderRadius: "10px"}}>
       <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
   </div>
 ) : (
