@@ -26,6 +26,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "react-to-pdf": "^0.0.14",
     "react-validation": "^3.0.7",
     "stream": "npm:stream-browserify",
     "validator": "^13.9.0",
