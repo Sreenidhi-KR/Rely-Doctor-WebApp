@@ -7,6 +7,7 @@ import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token');
+import Prescription from './prescription.component'
 
 // const currentUser = authService.getCurrentUser;
 // console.log(currentUser)
@@ -99,8 +100,11 @@ const callbacks = {
 };
 
 return videoCall ? (
+  <div>
   <div style={{ display: "flex", marginLeft:"400px",marginTop:"20px",width: "60vw", height: "90vh", border: "5px solid dodgerblue", borderRadius: "10px"}}>
       <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
+  </div>
+  <Presciption></Presciption>
   </div>
 ) : (
     <form onSubmit={handleSubmit}>
