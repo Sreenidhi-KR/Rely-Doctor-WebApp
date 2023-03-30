@@ -58,6 +58,7 @@ function Prescription() {
                     onChange={event => handleFormChange(event, index)}
                     value={form.name}
                     />
+                    <br></br><br></br>
                     <input
                     name='Morning'
                     type='checkbox'
@@ -76,6 +77,8 @@ function Prescription() {
                     onChange={event => handleRadio(event, index)}
                     ></input>
                     <label>Night</label> 
+                    <br></br>
+                    <br></br>
                 </div>
               )
             })}

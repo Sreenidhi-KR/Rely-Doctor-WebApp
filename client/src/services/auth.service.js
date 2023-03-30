@@ -1,6 +1,16 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:8080/api/auth/doctor/";
+const urlBase = "http://localhost:8080/api";
+
+const config = {
+  // headers: {
+  //   "ngrok-skip-browser-warning": "true",
+    
+  // },
+  headers: authHeader()
+};
 
 class AuthService {
   login(username, password) {
@@ -11,7 +21,7 @@ class AuthService {
       })
       .then(response => {
         if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("doctor", JSON.stringify(response.data));
         }
 
         return response.data;
@@ -19,20 +29,33 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("user");
-  }
-
-  register(username, email, password) {
-    return axios.post(API_URL + "signup", {
-      username,
-      email,
-      password
-    });
+    localStorage.removeItem("doctor");
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(localStorage.getItem('doctor'));
   }
+
+  // getDoctorDetails = async() => {
+  //   const id=JSON.parse(localStorage.getItem('doctor')).id;
+  //   return await axios.get(`${urlBase}/v1/doctor/getDoctorById/${id}`, config).then(response => response.data);
+  // }
+
+  getDoctor = (setDoctor) => {
+    const id=JSON.parse(localStorage.getItem('doctor')).id;
+    axios
+      .get(`${urlBase}/v1/doctor/getDoctorById/${id}`, config)
+      .then((json) => {
+        setDoctor(json.data);
+        console.log(json.data)
+        return json.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    };
+
+  
 }
 
 export default new AuthService();
