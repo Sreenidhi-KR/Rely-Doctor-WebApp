@@ -94,6 +94,7 @@ class AuthService {
         console.log(error);
       });
   };
+
   getPatientsInQueue = (setPatients) => {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     axios
@@ -104,6 +105,45 @@ class AuthService {
       })
       .catch((error) => {
         console.log(`MYLOG ERROR : ${error}`);
+      });
+  };
+  getPatientDocuments = (cid) => {
+    axios
+      .get(`${urlBase}/v1/consultation/getAllDocumentsByCid/${cid}`, config)
+      .then((json) => {
+        console.log(json.data);
+        return json.data;
+      })
+      .catch((error) => {
+        console.log("My error");
+        console.log(error);
+      });
+  };
+
+  downloadPatientDocument = (docId) => {
+    axios
+      .get(`${urlBase}/v1/document/download/${docId}`, configuration)
+      .then((json) => {
+        const pdfstr = json.data;
+
+        // const DownloadDir = RNFetchBlob.fs.dirs.DownloadDir;
+        // let fileName = "test.pdf";
+        // let pdfLocation = DownloadDir + "/" + fileName;
+        // console.log(pdfLocation);
+        // RNFetchBlob.fs.writeFile(pdfLocation, pdfstr, "base64");
+        // const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`;
+        // RNFetchBlob.fs.cp(filePath, filePath).then(() =>
+        //   RNFetchBlob.android.addCompleteDownload({
+        //     title: fileName,
+        //     description: "Download complete",
+        //     mime: "base64",
+        //     path: filePath,
+        //     showNotification: true,
+        //   })
+        // );
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 }
