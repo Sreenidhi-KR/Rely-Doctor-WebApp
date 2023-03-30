@@ -75,6 +75,20 @@ class AuthService {
           console.log(error);
         });
       };
+
+  uploadPrescription = (prescription,Pid,Cid) => {
+    let formData = new FormData();
+  formData.append("file",prescription);
+    axios.post(`${urlBase}/v1/document/uploadPrescription/${Pid}/${Cid}`,formData,config)
+    .then((json)=> {
+      console.log(json.data)
+      return json.data;
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+
 }
 
 export default new AuthService();

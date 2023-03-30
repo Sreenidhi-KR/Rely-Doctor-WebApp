@@ -67,7 +67,7 @@ const updateDoctor = (setDoctor) => {
 
 window.onload = () => {
     getDoctor(setDoctor);
-    }
+  }
 
   useEffect(() => { 
       rtcProps["channel"] = channelName;
@@ -113,7 +113,7 @@ return videoCall ? (
   <br></br>
   <br></br>
   <br></br>
-  <Prescription></Prescription>
+  <Prescription doctor={doctor}></Prescription>
   </div>
 ) : (
     <form onSubmit={handleSubmit}>
