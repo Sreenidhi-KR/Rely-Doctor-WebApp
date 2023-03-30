@@ -4,6 +4,7 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/api/auth/doctor/";
 const urlBase = "http://localhost:8080/api";
 
+const user = JSON.parse(localStorage.getItem('doctor'));
 
 const config = {
   // headers: {
@@ -12,16 +13,16 @@ const config = {
   // },
   headers: authHeader()
 };
-const configPhoto=null;
-try{
+
+var  configPhoto=null;
+
+if(user && user.accessToken){
   configPhoto = {
     headers:{
       "Content-Type":"multipart/form-data",
-      "Authorization":"Bearer "+JSON.parse(localStorage.getItem('doctor')).accessToken
+      "Authorization":"Bearer "+user.accessToken
     }
   }
-}catch(err){
-  console.log(err)
 }
 
 class AuthService {
@@ -77,9 +78,10 @@ class AuthService {
       };
 
   uploadPrescription = (prescription,Pid,Cid) => {
+    console.log(prescription);
     let formData = new FormData();
     formData.append("file",prescription);
-    axios.post(`${urlBase}/v1/document/uploadPrescription/${Pid}/${Cid}`,formData,config)
+    axios.post(`${urlBase}/v1/document/uploadPrescription/${Pid}/${Cid}`,formData,configPhoto)
     .then((json)=> {
       console.log(json.data)
       return json.data;

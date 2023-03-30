@@ -172,7 +172,7 @@ const PDF = (props) => {
         Generate Prescription
         </button>}
     </Pdf> 
-    <button disabled={!value} style={{marginLeft:"400px"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={authService.uploadPrescription(file,1,3)}>Upload Prescription</button>
+    <button disabled={!value} style={{marginLeft:"400px"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={()=>{authService.uploadPrescription(file,1,3);}}>Upload Prescription</button>
       <input style={{marginLeft:"20px"}} className="add-form-input" type="file" placeholder="Photo URL" onChange={handleUpload}/>
   </>
   );
