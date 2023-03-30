@@ -78,7 +78,7 @@ class AuthService {
 
   uploadPrescription = (prescription,Pid,Cid) => {
     let formData = new FormData();
-  formData.append("file",prescription);
+    formData.append("file",prescription);
     axios.post(`${urlBase}/v1/document/uploadPrescription/${Pid}/${Cid}`,formData,config)
     .then((json)=> {
       console.log(json.data)
