@@ -11,6 +11,7 @@ import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 import Prescription from "./prescription.component";
 import PatientDocuments from "../components/patientDocuments";
+import DoctorQueue from "./queue.component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
@@ -118,7 +119,10 @@ function VideoCall() {
     <div>
       <Container>
         <Row>
-          <Col></Col>
+          <Col>
+            {" "}
+            <DoctorQueue />
+          </Col>
           <Col>
             <div
               style={{
@@ -133,7 +137,7 @@ function VideoCall() {
             </div>
           </Col>
           <Col>
-            <PatientDocuments consultationId={1}></PatientDocuments>
+            <PatientDocuments consultationId={3}></PatientDocuments>
             {/* consultation Id is hardcoded as 1 here */}
           </Col>
         </Row>

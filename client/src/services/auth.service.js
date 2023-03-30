@@ -23,6 +23,17 @@ if (user && user.accessToken) {
     },
   };
 }
+var configuration = null;
+
+if (user && user.accessToken) {
+  configuration = {
+    headers: {
+      "ngrok-skip-browser-warning": "true",
+      Authorization: "Bearer " + user.accessToken,
+      Accept: "application/json",
+    },
+  };
+}
 
 class AuthService {
   login(username, password) {
@@ -107,45 +118,61 @@ class AuthService {
         console.log(`MYLOG ERROR : ${error}`);
       });
   };
-  getPatientDocuments = (cid) => {
+
+  getPatientDocuments = (cid, setDocuments) => {
     axios
       .get(`${urlBase}/v1/consultation/getAllDocumentsByCid/${cid}`, config)
       .then((json) => {
-        console.log(json.data);
+        console.log(`My data:s ${json.data}`);
+        setDocuments(json.data);
         return json.data;
       })
       .catch((error) => {
-        console.log("My error");
+        console.log(`My error ${error}`);
         console.log(error);
       });
   };
 
   downloadPatientDocument = (docId) => {
+    console.log("Downloding document");
     axios
       .get(`${urlBase}/v1/document/download/${docId}`, configuration)
       .then((json) => {
         const pdfstr = json.data;
+        const linkSource = `data:application/pdf;base64,${pdfstr}`;
+        const downloadLink = document.createElement("a");
+        const fileName = "file.pdf";
 
-        // const DownloadDir = RNFetchBlob.fs.dirs.DownloadDir;
-        // let fileName = "test.pdf";
-        // let pdfLocation = DownloadDir + "/" + fileName;
-        // console.log(pdfLocation);
-        // RNFetchBlob.fs.writeFile(pdfLocation, pdfstr, "base64");
-        // const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`;
-        // RNFetchBlob.fs.cp(filePath, filePath).then(() =>
-        //   RNFetchBlob.android.addCompleteDownload({
-        //     title: fileName,
-        //     description: "Download complete",
-        //     mime: "base64",
-        //     path: filePath,
-        //     showNotification: true,
-        //   })
-        // );
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        //<embed src={`data:application/pdf;base64,${pdfstr}`} />;
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  // const DownloadDir = RNFetchBlob.fs.dirs.DownloadDir;
+  // let fileName = "test.pdf";
+  // let pdfLocation = DownloadDir + "/" + fileName;
+  // console.log(pdfLocation);
+  // RNFetchBlob.fs.writeFile(pdfLocation, pdfstr, "base64");
+  // const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`;
+  // RNFetchBlob.fs.cp(filePath, filePath).then(() =>
+  //   RNFetchBlob.android.addCompleteDownload({
+  //     title: fileName,
+  //     description: "Download complete",
+  //     mime: "base64",
+  //     path: filePath,
+  //     showNotification: true,
+  //   })
+  // );
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 }
 
 export default new AuthService();

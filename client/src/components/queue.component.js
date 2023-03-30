@@ -14,7 +14,7 @@ function DoctorQueue() {
 
       interval = setInterval(() => {
         AuthService.getPatientsInQueue(setPatients);
-      }, 30000);
+      }, 10000);
 
       return () => {
         console.log("Interval Cleared");
