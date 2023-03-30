@@ -7,7 +7,6 @@ import AuthService from "./services/auth.service";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import Login from "./components/login.component";
-import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
@@ -56,9 +55,9 @@ class App extends Component {
 
     return (
       <div>
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="lg" variant="dark" style={{backgroundColor: "rgb(38, 201, 225)"}}>
           <Container>
-            <Navbar.Brand href={"/home"}>Home</Navbar.Brand>
+            <Navbar.Brand href={"/home"} style={{color:"white",fontWeight:"bold",fontSize:"25px"}}>Home</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
@@ -75,14 +74,13 @@ class App extends Component {
                   <Fragment>
                     <Nav.Link href={"/profile"}>Profile</Nav.Link>
                     <Nav.Link href={"/video"}>VideoCall</Nav.Link>
-                    <Nav.Link href="/login" onClick={this.logOut}>
+                    <Nav.Link href="/login" onClick={this.logOut} style={{color:"white"}}>
                       LogOut
                     </Nav.Link>
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <Nav.Link href={"/login"}>Login</Nav.Link>
-                    <Nav.Link href={"/register"}>SignUp</Nav.Link>
+                    <Nav.Link href={"/login"} style={{color:"white", fontSize:"20px"}}>Login</Nav.Link>
                   </Fragment>
                 )}
               </Nav>
@@ -95,7 +93,6 @@ class App extends Component {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />
             <Route path="/video" element={<VideoCall/>} />

@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import authHeader from '../services/auth-header';
 import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import Prescription from './prescription.component'
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token');
-import Prescription from './prescription.component'
 
 // const currentUser = authService.getCurrentUser;
 // console.log(currentUser)
@@ -23,7 +23,7 @@ function VideoCall() {
     console.log(user.id);
   
   const config = {
-  headers: authHeader()
+    headers: authHeader()
   };
   const appId = '5e2ee6c6fc13459caa99cb8c234d42e0';
   const appCertificate = '6529c2900f7442b89b7b46666fdca9de';
@@ -54,7 +54,7 @@ const getDoctor = (setDoctor) => {
 
 const updateDoctor = (setDoctor) => {
   axios
-    .post(`${urlBase}/doctor/updateDoctor`, doctor[0], config)
+    .post(`${urlBase}/doctor/updateDoctor`, doctor, config)
     .then(() => {
       getDoctor(setDoctor);
     })
@@ -77,22 +77,24 @@ useEffect(() => {
   const handleSubmit = (event) => {
     event.preventDefault(); 
     channelId = channelName;
+    console.log(channelId)
     let tok = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelId, "", role, privilegeExpiredTs);
     setTokenA(tok);
-    doctor[0].channel_name = tok;
+    doctor.channel_name = tok;
     setDoctor(doctor);
     updateDoctor(setDoctor);
+    console.log("lol")
     setVideoCall(true);    
 };
 
 const handle = (event) => {
-    var strng = doctor[0].id+doctor[0].fname;
+    var strng = doctor.id+doctor.fname;
     setChannelName(strng);
 };
 
 const callbacks = {
   EndCall: () => {
-    doctor[0].channel_name = null;
+    doctor.channel_name = null;
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(false);
@@ -104,8 +106,13 @@ return videoCall ? (
   <div style={{ display: "flex", marginLeft:"400px",marginTop:"20px",width: "60vw", height: "90vh", border: "5px solid dodgerblue", borderRadius: "10px"}}>
       <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
   </div>
-  <Presciption></Presciption>
+  <br></br>
+  <br></br>
+  <br></br>
+  <br></br>
+  <Prescription></Prescription>
   </div>
+
 ) : (
     <form onSubmit={handleSubmit}>
     <button type="submit" onClick={handle}>Join</button>
