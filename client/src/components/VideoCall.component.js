@@ -4,6 +4,7 @@ import AgoraUIKit from "agora-react-uikit";
 import { useEffect, useState } from 'react';
 import authHeader from '../services/auth-header';
 import AuthService from "../services/auth.service";
+import Prescription from "./prescription.component"
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token');
 
@@ -104,8 +105,15 @@ const callbacks = {
 };
 
 return videoCall ? (
+  <div>
   <div style={{ display: "flex", marginLeft:"400px",marginTop:"20px",width: "60vw", height: "90vh", border: "5px solid dodgerblue", borderRadius: "10px"}}>
       <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
+  </div>
+  <br></br>
+  <br></br>
+  <br></br>
+  <br></br>
+  <Prescription></Prescription>
   </div>
 ) : (
     <form onSubmit={handleSubmit}>
