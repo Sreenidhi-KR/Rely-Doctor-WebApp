@@ -6,9 +6,11 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import patientDocuments from "../components/patientDocuments";
 import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 import Prescription from "./prescription.component";
+import PatientDocuments from "../components/patientDocuments";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
@@ -118,8 +120,7 @@ function VideoCall() {
     <div>
       <Container>
         <Row>
-          <Col>
-          </Col>
+          <Col></Col>
           <Col xs={6} m={6} lg={6} xl={6} xxl={6}>
             <div
               style={{
@@ -133,7 +134,10 @@ function VideoCall() {
               <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
             </div>
           </Col>
-          <Col></Col>
+          <Col>
+            <PatientDocuments consultationId={1}></PatientDocuments>
+            {/* consultation Id is hardcoded as 1 here */}
+          </Col>
         </Row>
       </Container>
 
