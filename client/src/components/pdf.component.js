@@ -4,13 +4,15 @@ import authService from '../services/auth.service';
 
 const ref = React.createRef();
 
+let file = null;
+const handleUpload = (e) => {
+  file = e.target.files[0];
+}
+
 
 const PDF = (props) => {
   const [value,setValue]=useState(false)
-  let file = null;
-  const handleUpload = (e) => {
-    file = e.target.files[0];
-  }
+  
 
   console.log(props.formFields)
   console.log(props.doctor);
@@ -170,10 +172,8 @@ const PDF = (props) => {
         Generate Prescription
         </button>}
     </Pdf> 
-    <div>
-    <button disabled={!value} style={{marginLeft:"480px"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={authService.uploadPrescription(file,1,3)}>Upload Prescription</button>
-      <input className="add-form-input" type="file" placeholder="Photo URL" onChange={handleUpload}/>
-    </div>
+    <button disabled={!value} style={{marginLeft:"400px"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={()=>{authService.uploadPrescription(file,1,3);}}>Upload Prescription</button>
+      <input style={{marginLeft:"20px"}} className="add-form-input" type="file" placeholder="Photo URL" onChange={handleUpload}/>
   </>
   );
 }

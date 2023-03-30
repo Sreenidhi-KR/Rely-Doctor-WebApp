@@ -9,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 import Prescription from "./prescription.component";
-import DoctorQueue from "./queue.component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
@@ -118,7 +117,6 @@ function VideoCall() {
       <Container>
         <Row>
           <Col>
-            <DoctorQueue />
           </Col>
           <Col>
             <div
@@ -133,7 +131,7 @@ function VideoCall() {
               <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
             </div>
           </Col>
-          <Col>3 of 3</Col>
+          <Col></Col>
         </Row>
       </Container>
 
