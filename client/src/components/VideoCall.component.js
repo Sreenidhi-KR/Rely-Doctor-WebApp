@@ -32,7 +32,7 @@ function VideoCall() {
   const appId = "5e2ee6c6fc13459caa99cb8c234d42e0";
   const appCertificate = "6529c2900f7442b89b7b46666fdca9de";
   var channelId = "";
-  var uid = 0;
+  //var uid = 0;
   const role = RtcRole.PUBLISHER;
   const expirationTimeInSeconds = 3600;
   const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -42,7 +42,6 @@ function VideoCall() {
     appId: "5e2ee6c6fc13459caa99cb8c234d42e0",
     channel: "",
     token: "",
-    uid: 0,
   };
 
   const getDoctor = (setDoctor) => {
@@ -77,30 +76,29 @@ function VideoCall() {
   useEffect(() => {
     rtcProps["channel"] = channelName;
     rtcProps["token"] = tokenA;
-    rtcProps["uid"] = userId;
   });
 
   const handle = (event) => {
     var strng = doctor.userName + doctor.id;
-    setUserId(doctor.id);
+    //setUserId(doctor.id);
     setChannelName(strng);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     channelId = channelName;
-    uid = userId;
+    //uid = userId;
     let tok = RtcTokenBuilder.buildTokenWithUid(
       appId,
       appCertificate,
       channelId,
-      uid,
+      "",
       role,
       privilegeExpiredTs
     );
     setTokenA(tok);
     doctor.token = tok;
-    doctor.channel_name = String(doctor.userName);
+    doctor.channel_name = String(doctor.userName + doctor.id);
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(true);
@@ -121,11 +119,11 @@ function VideoCall() {
       <Container>
         <Row>
           <Col></Col>
-          <Col xs={6} m={6} lg={6} xl={6} xxl={6}>
+          <Col>
             <div
               style={{
                 display: "flex",
-                width: "auto",
+                width: "60vw",
                 height: "90vh",
                 border: "5px solid dodgerblue",
                 borderRadius: "10px",
