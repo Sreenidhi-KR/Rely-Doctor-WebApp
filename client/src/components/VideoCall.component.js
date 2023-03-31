@@ -6,9 +6,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+import patientDocuments from "../components/patientDocuments";
 import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 import Prescription from "./prescription.component";
+import PatientDocuments from "../components/patientDocuments";
+import DoctorQueue from "./queue.component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
@@ -30,7 +33,7 @@ function VideoCall() {
   const appId = "5e2ee6c6fc13459caa99cb8c234d42e0";
   const appCertificate = "6529c2900f7442b89b7b46666fdca9de";
   var channelId = "";
-  var uid = 0;
+  //var uid = 0;
   const role = RtcRole.PUBLISHER;
   const expirationTimeInSeconds = 3600;
   const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -40,7 +43,6 @@ function VideoCall() {
     appId: "5e2ee6c6fc13459caa99cb8c234d42e0",
     channel: "",
     token: "",
-    uid: 0,
   };
 
   const getDoctor = (setDoctor) => {
@@ -75,30 +77,29 @@ function VideoCall() {
   useEffect(() => {
     rtcProps["channel"] = channelName;
     rtcProps["token"] = tokenA;
-    rtcProps["uid"] = userId;
   });
 
   const handle = (event) => {
     var strng = doctor.userName + doctor.id;
-    setUserId(doctor.id);
+    //setUserId(doctor.id);
     setChannelName(strng);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     channelId = channelName;
-    uid = userId;
+    //uid = userId;
     let tok = RtcTokenBuilder.buildTokenWithUid(
       appId,
       appCertificate,
       channelId,
-      uid,
+      "",
       role,
       privilegeExpiredTs
     );
     setTokenA(tok);
     doctor.token = tok;
-    doctor.channel_name = String(doctor.userName);
+    doctor.channel_name = String(doctor.userName + doctor.id);
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(true);
@@ -119,12 +120,14 @@ function VideoCall() {
       <Container>
         <Row>
           <Col>
+            {" "}
+            <DoctorQueue />
           </Col>
-          <Col xs={6} m={6} lg={6} xl={6} xxl={6}>
+          <Col>
             <div
               style={{
                 display: "flex",
-                width: "auto",
+                width: "60vw",
                 height: "90vh",
                 border: "5px solid dodgerblue",
                 borderRadius: "10px",
@@ -133,7 +136,10 @@ function VideoCall() {
               <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
             </div>
           </Col>
-          <Col></Col>
+          <Col>
+            <PatientDocuments consultationId={1}></PatientDocuments>
+            {/* consultation Id is hardcoded as 1 here */}
+          </Col>
         </Row>
       </Container>
 
