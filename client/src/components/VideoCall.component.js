@@ -137,7 +137,7 @@ function VideoCall() {
             </div>
           </Col>
           <Col>
-            <PatientDocuments consultationId={3}></PatientDocuments>
+            <PatientDocuments consultationId={1}></PatientDocuments>
             {/* consultation Id is hardcoded as 1 here */}
           </Col>
         </Row>
