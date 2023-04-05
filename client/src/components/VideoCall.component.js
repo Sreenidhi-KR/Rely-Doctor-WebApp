@@ -9,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import patientDocuments from "../components/patientDocuments";
 import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
-import Prescription from "./prescription.component";
 import PatientDocuments from "../components/patientDocuments";
 import DoctorQueue from "./queue.component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -23,6 +22,7 @@ function VideoCall() {
   const [doctor, setDoctor] = useState([]);
   const [channelName, setChannelName] = useState("");
   const [userId, setUserId] = useState(0);
+  const [consultationId,setConsultationId]=useState(-1);
 
   const user = AuthService.getCurrentUser();
   console.log(user.id);
@@ -77,6 +77,7 @@ function VideoCall() {
   useEffect(() => {
     rtcProps["channel"] = channelName;
     rtcProps["token"] = tokenA;
+    
   });
 
   const handle = (event) => {
@@ -115,6 +116,12 @@ function VideoCall() {
     },
   };
 
+  async function getConsultationId(){
+    let cid= await AuthService.getConsultationId();
+    setConsultationId(cid);
+    console.log('+++++',cid);
+  }
+
   return videoCall ? (
     <div>
       <Container>
@@ -127,7 +134,7 @@ function VideoCall() {
             <div
               style={{
                 display: "flex",
-                width: "60vw",
+                width: "50vw",
                 height: "90vh",
                 border: "5px solid dodgerblue",
                 borderRadius: "10px",
@@ -137,18 +144,17 @@ function VideoCall() {
             </div>
           </Col>
           <Col>
-            <PatientDocuments consultationId={1}></PatientDocuments>
+            <PatientDocuments doctor={doctor}></PatientDocuments>
             {/* consultation Id is hardcoded as 1 here */}
           </Col>
         </Row>
       </Container>
 
-      <Prescription doctor={doctor}></Prescription>
     </div>
   ) : (
     <form onSubmit={handleSubmit}>
-      <button type="submit" onClick={handle}>
-        Join
+      <button type="submit" class="btn btn-outline-primary btn-lg" style={{marginLeft:"45%",marginTop:"20%"}} onClick={handle}>
+        Join VideoCall
       </button>
     </form>
   );

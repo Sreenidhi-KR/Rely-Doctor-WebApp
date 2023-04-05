@@ -2,19 +2,22 @@ import { useEffect, useState } from "react";
 import AuthService from "../services/auth.service";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
+import Prescription from "./prescription.component";
 
-function PatientDocuments({ consultationId }) {
+
+function PatientDocuments({ doctor }) {
   const [documents, setDocuments] = useState([]);
   const [isLoading, setLoading] = useState(true);
   var interval;
 
+  
+
   useEffect(() => {
     setLoading(true);
     try {
-      AuthService.getPatientDocuments(consultationId, setDocuments);
-
+      
       interval = setInterval(() => {
-        AuthService.getPatientDocuments(consultationId, setDocuments);
+        AuthService.getPatientDocuments(setDocuments);
       }, 10000);
 
       return () => {
@@ -31,6 +34,8 @@ function PatientDocuments({ consultationId }) {
     <div> LOADING</div>
   ) : (
     <div>
+          <Prescription doctor={doctor}></Prescription>
+
       Documents
       <ListGroup>
         {documents.map((document) => (
