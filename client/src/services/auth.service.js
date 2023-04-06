@@ -2,17 +2,20 @@ import axios from "axios";
 import { json } from "react-router-dom";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/api/auth/doctor/";
-const urlBase = "http://localhost:8080/api";
+const API_URL = "https://7d30-103-156-19-229.in.ngrok.io/api/auth/doctor/";
+const urlBase = "https://7d30-103-156-19-229.in.ngrok.io/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
 
-const config = {
+var config = null;
+
+if (user && user.accessToken) {
+config = {
   headers: {
     "ngrok-skip-browser-warning": "true",
     Authorization: "Bearer " + user.accessToken,
-  }
-  // headers: authHeader(),
+  }         
 };
+}
 
 var configPhoto = null;
 

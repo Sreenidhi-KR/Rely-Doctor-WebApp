@@ -13,9 +13,10 @@ import AuthService from "../services/auth.service";
 import PatientDocuments from "../components/patientDocuments";
 import DoctorQueue from "./queue.component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
-const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
+const {RtcTokenBuilder, RtcRole} = require('agora-access-token')
 
-const urlBase = "http://localhost:8080/api/v1";
+
+const urlBase = "https://7d30-103-156-19-229.in.ngrok.io/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -25,16 +26,20 @@ function VideoCall() {
   const [userId, setUserId] = useState(0);
   const [consultationId,setConsultationId]=useState(-1);
 
-  const user = AuthService.getCurrentUser();
+  const user = JSON.parse(localStorage.getItem("doctor"));
   console.log(user.id);
 
   const config = {
-    headers: authHeader(),
+    headers: {
+      "ngrok-skip-browser-warning": "true",
+      Authorization: "Bearer " + user.accessToken,
+    }
   };
   const appId = "5e2ee6c6fc13459caa99cb8c234d42e0";
   const appCertificate = "6529c2900f7442b89b7b46666fdca9de";
   var channelId = "";
-  //var uid = 0;
+  const userAccount="";
+  const uid = "0";
   const role = RtcRole.PUBLISHER;
   const expirationTimeInSeconds = 3600;
   const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -46,6 +51,10 @@ function VideoCall() {
     token: "",
   };
 
+  useEffect(()=>{
+    rtcProps["token"] = tokenA;
+    rtcProps["channel"] = channelName;
+  });
   const getDoctor = (setDoctor) => {
     axios
       .get(`${urlBase}/doctor/getDoctorById/${user.id}`, config)
@@ -75,33 +84,18 @@ function VideoCall() {
     getDoctor(setDoctor);
   };
 
-  useEffect(() => {
-    rtcProps["channel"] = channelName;
-    rtcProps["token"] = tokenA;
-    
-  });
-
   const handle = (event) => {
     var strng = doctor.userName + doctor.id;
-    //setUserId(doctor.id);
     setChannelName(strng);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    channelId = channelName;
-    //uid = userId;
-    let tok = RtcTokenBuilder.buildTokenWithUid(
-      appId,
-      appCertificate,
-      channelId,
-      "",
-      role,
-      privilegeExpiredTs
-    );
+    channelId = channelName.toString();
+    const tok = await RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelId, uid, role, privilegeExpiredTs);
     setTokenA(tok);
     doctor.token = tok;
-    doctor.channel_name = String(doctor.userName + doctor.id);
+    doctor.channel_name = channelId;
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(true);
