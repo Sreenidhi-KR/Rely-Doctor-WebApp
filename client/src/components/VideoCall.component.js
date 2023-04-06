@@ -5,7 +5,8 @@ import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faCoffee } from '@fortawesome/fontawesome-free-solid'
 import patientDocuments from "../components/patientDocuments";
 import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
@@ -153,8 +154,10 @@ function VideoCall() {
     </div>
   ) : (
     <form onSubmit={handleSubmit}>
-      <button type="submit" class="btn btn-outline-primary btn-lg" style={{marginLeft:"45%",marginTop:"20%"}} onClick={handle}>
-        Join VideoCall
+    {/* hello
+    <FontAwesomeIcon icon={faCoffee} /> */}
+      <button type="submit" class="btn btn-outline-primary btn-lg" style={{marginLeft:"43%",marginTop:"20%"}} onClick={handle}>
+        Join Video Consultation
       </button>
     </form>
   );
