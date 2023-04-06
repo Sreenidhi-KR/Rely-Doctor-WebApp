@@ -61,26 +61,19 @@ class App extends Component {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
-                {currentUser && (
-                  <Nav.Item>
-                    <Nav.Link eventKey="User" href={"/user"}>
-                      User
-                    </Nav.Link>
-                  </Nav.Item>
-                )}
                 </Nav>
                 <Nav>
                 {currentUser ? (
                   <Fragment>
-                    <Nav.Link href={"/profile"}>Profile</Nav.Link>
-                    <Nav.Link href={"/video"}>VideoCall</Nav.Link>
-                    <Nav.Link href="/login" onClick={this.logOut} style={{color:"white"}}>
+                    <Nav.Link href={"/profile"} style={{color:"white",fontWeight:"bold"}}>Profile</Nav.Link>
+                    <Nav.Link href={"/video"} style={{color:"white", fontWeight:"bold"}}>Consultation</Nav.Link>
+                    <Nav.Link href="/login" onClick={this.logOut} style={{color:"white", fontWeight:"bold"}}>
                       LogOut
                     </Nav.Link>
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <Nav.Link href={"/login"} style={{color:"white", fontSize:"20px"}}>Login</Nav.Link>
+                    <Nav.Link href={"/login"} style={{color:"white", fontSize:"20px", fontWeight:"bold"}}>Login</Nav.Link>
                   </Fragment>
                 )}
               </Nav>
@@ -94,7 +87,6 @@ class App extends Component {
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/user" element={<BoardUser />} />
             <Route path="/video" element={<VideoCall/>} />
           </Routes>
         </div>

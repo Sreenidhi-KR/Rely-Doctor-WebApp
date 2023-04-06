@@ -7,11 +7,11 @@ const urlBase = "http://localhost:8080/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
 
 const config = {
-  // headers: {
-  //   "ngrok-skip-browser-warning": "true",
-
-  // },
-  headers: authHeader(),
+  headers: {
+    "ngrok-skip-browser-warning": "true",
+    Authorization: "Bearer " + user.accessToken,
+  }
+  // headers: authHeader(),
 };
 
 var configPhoto = null;
@@ -19,6 +19,7 @@ var configPhoto = null;
 if (user && user.accessToken) {
   configPhoto = {
     headers: {
+      "ngrok-skip-browser-warning": "true",
       "Content-Type": "multipart/form-data",
       Authorization: "Bearer " + user.accessToken,
     },
