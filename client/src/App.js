@@ -54,7 +54,7 @@ class App extends Component {
       <div>
         <Navbar collapseOnSelect expand="lg" variant="dark" style={{backgroundColor: "rgb(38, 201, 225)"}}>
           <Container>
-            <Navbar.Brand href={"/home"} style={{color:"white",fontWeight:"bold",fontSize:"25px"}}>Home</Navbar.Brand>
+            <Navbar.Brand href={"/home"} ><img src="https://drive.google.com/uc?export=view&id=1greq1-QNqtuKNhrDraFNhltJIVvPt2KE" alt="Mountain" style={{width:"144px",height:"54px"}}></img></Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
