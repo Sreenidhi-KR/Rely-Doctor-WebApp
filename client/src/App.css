@@ -46,6 +46,20 @@ label {
   height: 80vh;
 }
 
+.Auth-form {
+  width: 420px;
+  box-shadow: rgba(3, 0, 0, 0.16) 5px 5px 10px;
+  padding-top: 30px;
+  padding-bottom: 80px;
+  border-radius: 8px;
+  background-color: rgb(250, 250, 250);
+}
+
+.Auth-form-content {
+  padding-left: 12%;
+  padding-right: 12%;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 * {
   margin: 0;
