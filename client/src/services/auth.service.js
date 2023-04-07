@@ -1,11 +1,8 @@
 import axios from "axios";
-import { json } from "react-router-dom";
-import authHeader from "./auth-header";
 
-const API_URL = "https://7d30-103-156-19-229.in.ngrok.io/api/auth/doctor/";
-const urlBase = "https://7d30-103-156-19-229.in.ngrok.io/api";
+const urlBase = "http://localhost:8080/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
-
+console.log(urlBase)
 var config = null;
 
 if (user && user.accessToken) {
@@ -43,7 +40,7 @@ if (user && user.accessToken) {
 class AuthService {
   login(username, password) {
     return axios
-      .post(API_URL + "signin", {
+      .post(urlBase + "/auth/doctor/signin", {
         username,
         password,
       })
@@ -92,26 +89,6 @@ class AuthService {
       });
   };
 
-  // uploadPrescription = (prescription, Pid, Cid) => {
-  //   console.log("Uploading Prescription")
-  //   console.log(prescription);
-  //   let formData = new FormData();
-  //   formData.append("file", prescription);
-  //   console.log(`${urlBase}/v1/document/uploadPrescription/${Pid}/${Cid}`)
-  //   axios
-  //     .post(
-  //       `${urlBase}/v1/document/uploadPrescription/${Pid}/${Cid}`,
-  //       formData,
-  //       configPhoto
-  //     )
-  //     .then((json) => {
-  //       console.log(json.data);
-  //       return json.data;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   getPatientsInQueue = (setPatients) => {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
@@ -156,35 +133,12 @@ class AuthService {
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
-        //<embed src={`data:application/pdf;base64,${pdfstr}`} />;
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  // getQueueId =  (file) => {
-  //   console.log("Getting Queue Id");
-  //   const id = JSON.parse( localStorage.getItem("doctor")).id;
-  //   axios
-  //     .get(`${urlBase}/v1/dqueue/getDqueue/${id}`, config)
-  //     .then((json) => {
-  //       const qid=json.data;
-  //       console.log(qid);
-  //       this.getConsultationId(json.data).then((json)=>{
-  //           const cid=json.data;
-  //           console.log(cid);
-  //           this.getPatientId(qid).then((json)=>{
-  //             console.log(pid);
-  //             const pid=json.data;
-  //             this.uploadPrescription(file,pid,cid);
-  //           })
-  //       })
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   getConsultationId = async(doctorId) => {
     console.log("docid", doctorId)
@@ -232,62 +186,6 @@ class AuthService {
         )
 
   }
-
-  // getConsultationId = (id) => {
-  //   console.log("getting Consultation id");
-  //   console.log(id)
-  //   console.log(`${urlBase}/v1/dqueue/getConsulationId/${id}`);
-  //   axios
-  //     .get(`${urlBase}/v1/dqueue/getConsulationId/${id}`, config)
-  //     .then((json) => {
-  //       const qid=json.data;
-  //       console.log(json.data);
-  //     }).then((json)=>
-  //     this.getConsultationId(qid).then((json)=>{
-  //       const cid=json.data;
-  //       console.log(cid);
-  //   })).then((json)=>this.getPatientId(qid).then((json)=>{
-  //     console.log(pid);
-  //     const pid=json.data;
-  //   })).then((json)=>this.uploadPrescription(file,pid,cid))
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
-  // getPatientId = (id) => {
-  //   console.log("Getting patient id");
-  //   axios
-  //     .get(`${urlBase}/v1/dqueue/getPatientId/${id}`, config)
-  //     .then((json) => {
-
-  //       console.log(json.data);
-  //       return json.data;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-  // const DownloadDir = RNFetchBlob.fs.dirs.DownloadDir;
-  // let fileName = "test.pdf";
-  // let pdfLocation = DownloadDir + "/" + fileName;
-  // console.log(pdfLocation);
-  // RNFetchBlob.fs.writeFile(pdfLocation, pdfstr, "base64");
-  // const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/${fileName}`;
-  // RNFetchBlob.fs.cp(filePath, filePath).then(() =>
-  //   RNFetchBlob.android.addCompleteDownload({
-  //     title: fileName,
-  //     description: "Download complete",
-  //     mime: "base64",
-  //     path: filePath,
-  //     showNotification: true,
-  //   })
-  // );
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 }
 
 export default new AuthService();

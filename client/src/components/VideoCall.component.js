@@ -5,10 +5,6 @@ import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/fontawesome-free-solid'
-import patientDocuments from "../components/patientDocuments";
-import authHeader from "../services/auth-header";
 import AuthService from "../services/auth.service";
 import PatientDocuments from "../components/patientDocuments";
 import DoctorQueue from "./queue.component";
@@ -16,14 +12,13 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token')
 
 
-const urlBase = "https://7d30-103-156-19-229.in.ngrok.io/api/v1";
+const urlBase = "http://localhost:8080/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
   const [tokenA, setTokenA] = useState(0);
   const [doctor, setDoctor] = useState([]);
   const [channelName, setChannelName] = useState("");
-  const [userId, setUserId] = useState(0);
   const [consultationId,setConsultationId]=useState(-1);
 
   const user = JSON.parse(localStorage.getItem("doctor"));
@@ -119,13 +114,12 @@ function VideoCall() {
 
   return videoCall ? (
     <div>
-      <Container>
+      <Container fluid style={{marginTop:"15px"}}>
         <Row>
           <Col>
-            {" "}
             <DoctorQueue />
           </Col>
-          <Col>
+          <Col style={{marginLeft:"1px"}}>
             <div
               style={{
                 display: "flex",
@@ -133,14 +127,14 @@ function VideoCall() {
                 height: "90vh",
                 border: "5px solid dodgerblue",
                 borderRadius: "10px",
+                marginLeft:"10px"
               }}
             >
               <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
             </div>
           </Col>
-          <Col>
+          <Col style={{marginLeft:"50px"}}>
             <PatientDocuments doctor={doctor}></PatientDocuments>
-            {/* consultation Id is hardcoded as 1 here */}
           </Col>
         </Row>
       </Container>

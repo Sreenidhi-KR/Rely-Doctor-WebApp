@@ -9,10 +9,7 @@ import Container from "react-bootstrap/Container";
 import Login from "./components/login.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
 import VideoCall from './components/VideoCall.component';
-
-// import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
 
 class App extends Component {

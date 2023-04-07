@@ -11,9 +11,6 @@ const handleUpload = (e) => {
 
 const PDF = (props) => {
   const [value, setValue] = useState(false);
-  const [dqueue, setDqueue] = useState("");
-  const [consultation, setConsultation] = useState("");
-  const [patient, setPatient] = useState("");
 
   const handlePrescriptionUpload = (file) => {
     console.log("Handle Prescription");

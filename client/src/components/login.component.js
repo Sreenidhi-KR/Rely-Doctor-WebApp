@@ -69,7 +69,7 @@ class Login extends Component {
         >
           <h3
             style={{
-              paddingLeft: "35px",
+              paddingLeft: "45px",
               color: "rgb(38, 201, 225)",
               fontWeight: "bold",
             }}

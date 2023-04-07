@@ -8,17 +8,16 @@ import Prescription from "./prescription.component";
 function PatientDocuments({ doctor }) {
   const [documents, setDocuments] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  var interval;
 
   
 
   useEffect(() => {
+    var interval;
     setLoading(true);
     try {
-      
       interval = setInterval(() => {
         AuthService.getPatientDocuments(setDocuments);
-      }, 10000);
+      }, 1000);
 
       return () => {
         console.log("Interval Cleared");
@@ -34,13 +33,14 @@ function PatientDocuments({ doctor }) {
     <div> LOADING</div>
   ) : (
     <div>
-          <Prescription doctor={doctor}></Prescription>
-
-      Documents
+      <Prescription doctor={doctor}></Prescription>
+      <br></br>
+      <br></br>
+      <h1 style={{fontFamily:"cursive",color:"rgb(38, 201, 225)"}}>Documents Shared</h1>
       <ListGroup>
         {documents.map((document) => (
           <div className="d-grid gap-2 m-3">
-            <Button
+            <Button class="btn btn-info" style={{width:"250px", marginLeft:"10px", marginTop:"10px"}}
               size="lg"
               onClick={() => AuthService.downloadPatientDocument(document.id)}
             >
