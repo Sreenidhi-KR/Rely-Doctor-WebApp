@@ -62,7 +62,7 @@ function Prescription(doctor) {
 
   return (
     <>
-      <Button class="btn btn-outline-primary" onClick={handleShow} style={{fontSize:"30px", fontFamily:"cursive", fontWeight:"bold"}}>
+      <Button class="btn btn-outline-primary" onClick={handleShow} style={{fontSize:"25px", fontWeight:"bold", color:"white", backgroundColor:"#5e17eb"}}>
         Generate Prescription
       </Button>
 
@@ -305,7 +305,7 @@ function Prescription(doctor) {
           </div>
         </section>
 
-        <button style={{marginLeft:"400px",display:`${display}`, marginBottom:"30px", width:"300px", marginTop:"30px"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={submitPost}>
+        <button style={{marginLeft:"400px",display:`${display}`, marginBottom:"30px", width:"300px", marginTop:"30px", backgroundColor:"#5e17eb"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={submitPost}>
         Generate Preview
     </button>
     {postSubmitted ? <PDF remarks={remarks} formFields={formFields} symptoms={symptoms} patientFname={patientFname} patientLname={patientLname} patientPhoneNo={patientPhoneNo} doctor={doctor}></PDF>:null}

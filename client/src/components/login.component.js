@@ -70,7 +70,7 @@ class Login extends Component {
           <h3
             style={{
               paddingLeft: "45px",
-              color: "rgb(38, 201, 225)",
+              color: "#5e17eb",
               fontWeight: "bold",
             }}
           >
@@ -100,7 +100,7 @@ class Login extends Component {
           <div className="d-grid mt-5">
             <button
               style={{
-                backgroundColor: "rgb(38, 201, 225)",
+                backgroundColor: "#5e17eb",
                 fontWeight: "bold",
               }}
               type="Submit"

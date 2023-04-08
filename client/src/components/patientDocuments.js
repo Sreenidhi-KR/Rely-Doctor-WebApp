@@ -36,16 +36,16 @@ function PatientDocuments({ doctor }) {
       <Prescription doctor={doctor}></Prescription>
       <br></br>
       <br></br>
-      <h1 style={{fontFamily:"cursive",color:"rgb(38, 201, 225)"}}>Documents Shared</h1>
+      <h1 style={{fontWeight:"bold", fontSize:"25px",color:"#5e17eb"}}>Documents Shared</h1>
       <ListGroup>
         {documents.map((document) => (
           <div className="d-grid gap-2 m-3">
-            <Button class="btn btn-info" style={{width:"250px", marginLeft:"10px", marginTop:"10px"}}
+            <a class="btn btn-info" style={{width:"250px", marginLeft:"10px", marginTop:"10px"}}
               size="lg"
               onClick={() => AuthService.downloadPatientDocument(document.id)}
             >
               {document.name}
-            </Button>
+            </a>
           </div>
         ))}
       </ListGroup>

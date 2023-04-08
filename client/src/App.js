@@ -52,7 +52,7 @@ class App extends Component {
 
     return (
       <div>
-        <Navbar collapseOnSelect expand="lg" variant="dark" style={{backgroundColor: "rgb(38, 201, 225)"}}>
+        <Navbar collapseOnSelect expand="lg" variant="dark" style={{backgroundColor: "#5e17eb"}}>
           <Container>
             <Navbar.Brand href={"/home"} ><img src="https://drive.google.com/uc?export=view&id=1greq1-QNqtuKNhrDraFNhltJIVvPt2KE" alt="Mountain" style={{width:"144px",height:"54px"}}></img></Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
