@@ -31,7 +31,7 @@ function DoctorQueue() {
     <div> LOADING</div>
   ) : (
     <div style={{marginLeft:"63px"}}>
-      <h1 style={{fontFamily:"cursive",color:"rgb(38, 201, 225)"}}>Patients Queue</h1>
+      <h1 style={{fontWeight:"bold", fontSize:"25px",color:"#5e17eb"}}>Patients Queue</h1>
       <ListGroup>
         {patients.map((patient) => (
           <div
