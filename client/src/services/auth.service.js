@@ -212,6 +212,32 @@ class AuthService {
         )
 
   }
+
+  setQueueLimit = async(doctorId, limit) => {
+    console.log(config)
+    let l = await axios
+    .post(`${urlBase}/v1/doctor/setQueueLimit/${doctorId}/${limit}`, {},config);
+    console.log(l)
+  }
+  
+  setFollowDate = async(followUpDate) => {
+    const id = JSON.parse(localStorage.getItem("doctor")).id;
+
+    let qid = await axios
+    .get(`${urlBase}/v1/dqueue/getDqueue/${id}`, config)
+
+    console.log("qid" , qid)
+
+    let cid =  await axios
+    .get(`${urlBase}/v1/dqueue/getConsultationId/${qid.data}`, config);
+
+    let followUp = await axios
+    .post(`${urlBase}/v1/consultation/setFollowUp/${cid}/${followUpDate}`, {}, config);
+
+    console.log(followUp);
+
+  }
+
 }
 
 export default new AuthService();

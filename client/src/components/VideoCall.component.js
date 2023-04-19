@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 import AuthService from "../services/auth.service";
 import PatientDocuments from "../components/patientDocuments";
 import DoctorQueue from "./queue.component";
+import authService from "../services/auth.service";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token')
 
@@ -20,6 +21,8 @@ function VideoCall() {
   const [doctor, setDoctor] = useState([]);
   const [channelName, setChannelName] = useState("");
   const [consultationId,setConsultationId]=useState(-1);
+  const [isQueueLimit, setQueueLimit] = useState(false);
+  const [isQSet, setQ] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("doctor"));
   console.log(user.id);
@@ -75,6 +78,12 @@ function VideoCall() {
       });
   };
 
+  const updateQLimit = async (event) => {
+    console.log(isQueueLimit)
+    setQ(true)
+    authService.setQueueLimit(doctor.id,isQueueLimit)
+  }
+
   window.onload = () => {
     getDoctor(setDoctor);
   };
@@ -97,10 +106,6 @@ function VideoCall() {
     updateDoctor(setDoctor);
     setVideoCall(true);
   };
-
-  const doSomethingBeforeUnload = () => {
-    // Do something
-  }
 
   window.addEventListener("beforeunload", (ev) => {
           ev.preventDefault();
@@ -157,13 +162,37 @@ function VideoCall() {
 
     </div>
   ) : (
+    <div>
+    <div style={{display:"inline-flex" , marginLeft:"43%", marginTop:"15%"}}>
+      <button type="submit"
+          class="btn btn-outline-secondary btn-lg"
+          onClick={updateQLimit}>Set Queue Limit</button>
+      <input
+        style={{borderRadius:"5px",marginLeft:"10px",paddingLeft:"12px", width:"60px"}}
+        name="Rating"
+        id="Rating"
+        className="add-form-input"
+        required
+        type="number" 
+        min="1" 
+        max="20"
+        value={isQueueLimit}
+        placeholder={doctor.limit}
+        onChange={(e) => {
+          console.log(e.target.value);
+          setQueueLimit(e.target.value)
+        }}
+      >
+      </input>
+      </div>
     <form onSubmit={handleSubmit}>
     {/* hello
     <FontAwesomeIcon icon={faCoffee} /> */}
-      <button type="submit" class="btn btn-outline-primary btn-lg" style={{marginLeft:"43%",marginTop:"20%"}} onClick={handle}>
+      <button type="submit" class="btn btn-outline-primary btn-lg" disabled={!isQSet} style={{marginLeft:"43%",marginTop:"1%"}} onClick={handle}>
         Join Video Consultation
       </button>
     </form>
+    </div>
   );
 }
 

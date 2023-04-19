@@ -238,6 +238,10 @@ const PDF = (props) => {
                     </div>
                   </div>
                   <hr class="my-4" />
+                  <label class="form-label" for="formCardNumber">
+                      Follow Up Date
+                    </label>
+                    <p>{props.followUpDate}</p>
                 </form>
               </div>
             </div>
