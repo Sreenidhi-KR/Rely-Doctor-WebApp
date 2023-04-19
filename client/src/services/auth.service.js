@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "http://localhost:8080/api";
+const urlBase = "https://d33d-103-156-19-229.ngrok-free.app/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
 console.log(urlBase)
 var config = null;
@@ -75,6 +75,21 @@ class AuthService {
       });
   };
 
+  getPreviousConsultations = async ()  => {
+    const id = JSON.parse(localStorage.getItem("doctor")).id;
+    try{
+    const json = await axios
+      .get(`${urlBase}/v1/consultation/getPrevConsultationsDoctor/${id}`, config)
+      
+      console.log(json.data)
+      return json.data;
+    }
+    catch(e){
+      console.log(e)
+    }
+
+  };
+
   getPhoto = (setImg) => {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     axios
@@ -120,7 +135,7 @@ class AuthService {
       });
   };
 
-  downloadPatientDocument = (docId) => {
+  downloadPatientDocument = (docId, docName) => {
     console.log("Downloding document");
     axios
       .get(`${urlBase}/v1/document/download/${docId}`, configuration)
@@ -128,8 +143,7 @@ class AuthService {
         const pdfstr = json.data;
         const linkSource = `data:application/pdf;base64,${pdfstr}`;
         const downloadLink = document.createElement("a");
-        const fileName = "file.pdf";
-
+        const fileName = docName;
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -139,6 +153,18 @@ class AuthService {
       });
   };
 
+  getConsultationGraphData = async () => {
+    try{
+    const id = JSON.parse(localStorage.getItem("doctor")).id;
+    const json = await axios
+      .get(`${urlBase}/v1/consultation/getPrevConsultationsStats/${id}`, config)
+      console.log(json.data)
+      return json.data;
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
 
   getConsultationId = async(doctorId) => {
     console.log("docid", doctorId)

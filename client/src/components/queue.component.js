@@ -39,12 +39,12 @@ function DoctorQueue() {
         style={{width:"250px",marginLeft:"1px", height:"150px", marginTop:"10px"}}
       >
         <div class="card-header" style={{fontWeight:"bolder", fontSize:"20px"}}>{patient.fname} {patient.lname}</div>
-        <div class="card-body">
+        {/* <div class="card-body">
           <h5 class="card-title">Patient Details</h5>
           <p class="card-text">
             Sex: {patient.sex}
           </p>
-        </div>
+        </div> */}
       </div>
         ))}
       </ListGroup>

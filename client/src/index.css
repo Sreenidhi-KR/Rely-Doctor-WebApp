@@ -7,7 +7,68 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css');
+
+
+.tile {
+  width:190px;
+  height:170px;
+  border-radius:4px;
+  box-shadow: 4px 4px 6px 0 rgba(0,0,0,0.15);
+  margin-top:30px;
+  margin-left:55px;
+}
+
+.tile .header .count {
+  font-size: 30px;
+  text-align:center;
+  padding:40px 0 0;
+}
+
+.tile .body .title {
+    text-align:center;
+    font-size:20px;
+    margin-top: 20px;
+}
+
+.tile.job .header {
+  background: white;
+  color: #5e17eb;
+  font-weight: bolder;
+}
+
+.tile.job  .body {
+  color:#5e17eb;
+  font-weight: bold;
+}
+
+.tile.resource .header {
+  background: linear-gradient(to bottom right, #ef7f00, #f7b200);
+}
+
+.tile.resource  .body {
+  color: #ef7f00;
+}
+
+.tile.quote .header {
+  background: linear-gradient(to bottom right, #1f6abb, #4f9cf2);
+}
+
+.tile.quote  .body {
+  color: #5e17eb
+}
+
+.tile.invoice .header {
+  background: white;
+}
+
+.tile.invoice  .body {
+  color:#5e17eb
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+

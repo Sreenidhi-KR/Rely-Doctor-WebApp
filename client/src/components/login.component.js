@@ -40,7 +40,7 @@ class Login extends Component {
     });
     AuthService.login(this.state.username, this.state.password).then(
       () => {
-        this.props.router.navigate("/profile");
+        this.props.router.navigate("/dashboard");
         window.location.reload();
       },
       (error) => {
@@ -69,9 +69,9 @@ class Login extends Component {
         >
           <h3
             style={{
-              paddingLeft: "45px",
+              textAlign:"center",
               color: "#5e17eb",
-              fontWeight: "bold",
+              fontWeight: "bolder",
             }}
           >
             DOCTOR LOGIN

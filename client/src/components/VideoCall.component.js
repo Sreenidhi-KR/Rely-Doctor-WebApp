@@ -12,7 +12,7 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token')
 
 
-const urlBase = "http://localhost:8080/api/v1";
+const urlBase = "https://d33d-103-156-19-229.ngrok-free.app/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -91,6 +91,7 @@ function VideoCall() {
     setTokenA(tok);
     doctor.token = tok;
     doctor.channel_name = channelId;
+    console.log("###############################################################################################-",tok)
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(true);
@@ -104,7 +105,9 @@ function VideoCall() {
       updateDoctor(setDoctor);
       setVideoCall(false);
     },
-  };
+    'user-joined': () => alert("User Joined"),
+    'user-left':() => alert("User Left"),
+    };
 
   async function getConsultationId(){
     let cid= await AuthService.getConsultationId();
