@@ -17,21 +17,24 @@ function Profile() {
           <div className="card-header" style={{color : 'white', backgroundColor:"#5e17eb", fontWeight:"bold", fontSize:"20px"}}>Profile Details
         </div>
         <div className="card-body">
-        <img alt="" style={{float:'right', borderRadius:15, boxShadow:'20px', width:'440px', height:'480px'}} src={`data:image/png;base64,${img}`}></img>
+        <img alt="" style={{float:'right', borderRadius:15, boxShadow:'20px', width:'480px', height:'475px'}} src={`data:image/png;base64,${img}`}></img>
           <h5 className="card-title" style={{color:"#5e17eb"}}>Name</h5>
           <p className="card-text">{doctor.fname} {doctor.lname}</p>
+          <br></br>
           <h5 className="card-title" style={{color:"#5e17eb"}}>Date Of Birth</h5>
           <p className="card-text">{doctor.dob}</p>
+          <br></br>
           <h5 className="card-title" style={{color:"#5e17eb"}}>Sex</h5>
           <p className="card-text">{doctor.sex}</p>
+          <br></br>
           <h5 className="card-title" style={{color:"#5e17eb"}}>Specialisation</h5>
           <p className="card-text">{doctor.specialization}</p>
+          <br></br>
           <h5 className="card-title" style={{color:"#5e17eb"}}>Qualification</h5>
           <p className="card-text">{doctor.qualification}</p>
+          <br></br>
           <h5 className="card-title" style={{color:"#5e17eb"}}>Email ID</h5>
           <p className="card-text">{doctor.email}</p>
-          <h5 className="card-title" style={{color:"#5e17eb"}}>Rating</h5>
-          <p className="card-text">{doctor.rating}</p>
         </div>
         </div>
 
