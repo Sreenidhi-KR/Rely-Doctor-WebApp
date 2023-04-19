@@ -1,6 +1,6 @@
 import "../App.css";
 import axios from "axios";
-import AgoraUIKit from "agora-react-uikit";
+import AgoraUIKit, { EndCall } from "agora-react-uikit";
 import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -91,16 +91,29 @@ function VideoCall() {
     setTokenA(tok);
     doctor.token = tok;
     doctor.channel_name = channelId;
+    doctor.online_status = true;
     console.log("###############################################################################################-",tok)
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(true);
   };
 
+  const doSomethingBeforeUnload = () => {
+    // Do something
+  }
+
+  window.addEventListener("beforeunload", (ev) => {
+          ev.preventDefault();
+          doctor.online_status = false;
+          updateDoctor(setDoctor);    
+          return null;
+  });
+
   const callbacks = {
     EndCall: () => {
       doctor.channel_name = null;
       doctor.token = null;
+      doctor.online_status = false;
       setDoctor(doctor);
       updateDoctor(setDoctor);
       setVideoCall(false);
