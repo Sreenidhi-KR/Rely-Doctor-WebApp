@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PDF from "./pdf.component";
 import { Modal, Button } from "react-bootstrap";
+import authService from "../services/auth.service";
 
 function Prescription(doctor) {
   const [show, setShow] = useState(false);
@@ -17,6 +18,7 @@ function Prescription(doctor) {
   const [patientLname, setPatientLname] = useState("");
   const [patientPhoneNo, setPatientPhoneNo] = useState("");
   const [postSubmitted, setPostSubmitted] = useState(0);
+  const [followUpDate, setFollowUpDate] = useState("");
 
   const handleFormChange = (event, index) => {
     let data = [...formFields];
@@ -48,6 +50,7 @@ function Prescription(doctor) {
     setFormFields(data);
   };
   const submitPost = (e) => {
+    authService.setFollowDate(followUpDate);
     setDisplay("none");
     e.preventDefault();
     console.log("abc");
@@ -298,6 +301,11 @@ function Prescription(doctor) {
                       </div>
                     </div>
                     <hr class="my-4" />
+                    <label class="form-label" for="formCardNumber">
+                      Follow Up Date
+                    </label>
+                    <input type="date" id="form6Example1"
+                            class="form-control" onChange={(e) => {setFollowUpDate(e.target.value)}}></input>
                   </form>
                 </div>
               </div>
@@ -308,7 +316,7 @@ function Prescription(doctor) {
         <button style={{marginLeft:"400px",display:`${display}`, marginBottom:"30px", width:"300px", marginTop:"30px", backgroundColor:"#5e17eb"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={submitPost}>
         Generate Preview
     </button>
-    {postSubmitted ? <PDF remarks={remarks} formFields={formFields} symptoms={symptoms} patientFname={patientFname} patientLname={patientLname} patientPhoneNo={patientPhoneNo} doctor={doctor}></PDF>:null}
+    {postSubmitted ? <PDF remarks={remarks} formFields={formFields} symptoms={symptoms} patientFname={patientFname} patientLname={patientLname} patientPhoneNo={patientPhoneNo} doctor={doctor} followUpDate={followUpDate}></PDF>:null}
       </Modal>
      
     </>
