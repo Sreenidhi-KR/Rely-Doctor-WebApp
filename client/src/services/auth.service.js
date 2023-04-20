@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "https://d33d-103-156-19-229.ngrok-free.app/api";
+const urlBase = "http://localhost:8080/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
 console.log(urlBase)
 var config = null;
@@ -231,11 +231,31 @@ class AuthService {
     let cid =  await axios
     .get(`${urlBase}/v1/dqueue/getConsultationId/${qid.data}`, config);
 
+    console.log("cid", cid)
+
     let followUp = await axios
-    .post(`${urlBase}/v1/consultation/setFollowUp/${cid}/${followUpDate}`, {}, config);
+    .post(`${urlBase}/v1/consultation/setFollowUp/${cid.data}/${followUpDate}`, {}, config);
 
     console.log(followUp);
 
+  }
+
+  removePatients = async(doctorid) => {
+    let remove = await axios
+    .get(`${urlBase}/v1/dqueue/removeAllPatient/${doctorid}`, config)
+    console.log(remove);
+  }
+
+  acceptPatient = async(bool) => {
+    const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
+
+    let qid = await axios
+    .get(`${urlBase}/v1/dqueue/getDqueue/${doctorId}`, config)
+
+    let toggle = await axios
+    .get(`${urlBase}/v1/dqueue/toggleAcceptPatient/${qid.data}/${bool}`,config)
+
+    console.log("togggggggling",toggle);
   }
 
 }

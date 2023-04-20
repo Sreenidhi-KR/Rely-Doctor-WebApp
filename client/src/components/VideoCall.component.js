@@ -13,7 +13,7 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 const {RtcTokenBuilder, RtcRole} = require('agora-access-token')
 
 
-const urlBase = "https://d33d-103-156-19-229.ngrok-free.app/api/v1";
+const urlBase = "http://localhost:8080/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -23,6 +23,8 @@ function VideoCall() {
   const [consultationId,setConsultationId]=useState(-1);
   const [isQueueLimit, setQueueLimit] = useState(false);
   const [isQSet, setQ] = useState(false);
+  const [open, setOpen] = useState(false)
+
 
   const user = JSON.parse(localStorage.getItem("doctor"));
   console.log(user.id);
@@ -78,10 +80,39 @@ function VideoCall() {
       });
   };
 
+  const handleConfirm = result => {
+    if (result) {
+      console.log('some action...')
+    }
+    
+    setOpen(false)
+  }
+
   const updateQLimit = async (event) => {
     console.log(isQueueLimit)
     setQ(true)
     authService.setQueueLimit(doctor.id,isQueueLimit)
+  }
+
+  const acceptPatient = async (event) => {
+    setOpen(true);
+  }
+
+  const acceptedPatient = async(event) => {
+    setOpen(false);
+    authService.acceptPatient(true);
+  }
+
+  const rejectedPatient = async(event) => {
+    setOpen(false);
+    authService.acceptPatient(false);
+    alert("Leave the call");
+  }
+
+  const leftPatient = () => {
+    console.log("Left Patient")
+    authService.acceptPatient(false);
+    setOpen(true);
   }
 
   window.onload = () => {
@@ -95,6 +126,8 @@ function VideoCall() {
 
   const handleSubmit = async(event) => {
     event.preventDefault();
+    // alert("let patient In");
+    // authService.acceptPatient()
     channelId = channelName.toString();
     const tok = await RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelId, uid, role, privilegeExpiredTs);
     setTokenA(tok);
@@ -105,12 +138,14 @@ function VideoCall() {
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(true);
+    acceptPatient();
   };
 
   window.addEventListener("beforeunload", (ev) => {
           ev.preventDefault();
           doctor.online_status = false;
           updateDoctor(setDoctor);    
+          authService.removePatients(doctor.id);
           return null;
   });
 
@@ -121,10 +156,12 @@ function VideoCall() {
       doctor.online_status = false;
       setDoctor(doctor);
       updateDoctor(setDoctor);
+      authService.removePatients(doctor.id);
       setVideoCall(false);
+
     },
-    'user-joined': () => alert("User Joined"),
-    'user-left':() => alert("User Left"),
+    'user-joined': () => console.log("User Joined"),
+    'user-left':() => {leftPatient();},
     };
 
   async function getConsultationId(){
@@ -158,6 +195,22 @@ function VideoCall() {
             <PatientDocuments doctor={doctor}></PatientDocuments>
           </Col>
         </Row>
+        <div className={open ? 'confirm show' : 'confirm'}>
+        <div className="confirm-content">
+          <h4 style={{color:"purple"}}>CONFIRM</h4>
+          <div>
+            <h2 style={{marginTop:"35px",fontSize:"27px",color:"blue"}}>Start Accepting Patients</h2>
+          </div>
+        </div>
+        <div className="confirm-btns">
+          <button class="yes" onClick={() => acceptedPatient()}>YES</button>
+          <button class="no" onClick={() => rejectedPatient()}>NO</button>
+        </div>
+      </div>
+      <div 
+        className="overlay" 
+        onClick={() => handleConfirm(false)} 
+      />
       </Container>
 
     </div>
@@ -186,8 +239,6 @@ function VideoCall() {
       </input>
       </div>
     <form onSubmit={handleSubmit}>
-    {/* hello
-    <FontAwesomeIcon icon={faCoffee} /> */}
       <button type="submit" class="btn btn-outline-primary btn-lg" disabled={!isQSet} style={{marginLeft:"43%",marginTop:"1%"}} onClick={handle}>
         Join Video Consultation
       </button>
