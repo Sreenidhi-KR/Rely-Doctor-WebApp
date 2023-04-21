@@ -258,7 +258,7 @@ const PDF = (props) => {
                 marginLeft: "150px",
                 width: "200px",
                 marginBottom: "20px",
-                marginTop:"10px",
+                marginTop:"0px",
                 height:"100px"
               }}
               class="btn btn-outline-primary btn-lg btn-block"

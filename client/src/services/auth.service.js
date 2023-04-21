@@ -263,7 +263,7 @@ class AuthService {
     console.log("ajsdbajsdbjda",doctorId);
     console.log(patientId);
     let removePatient = await axios
-    .get(`${urlBase}/v1/dequeue/removePatient/${doctorId}/${patientId}`,config)
+    .get(`${urlBase}/v1/dqueue/removePatient/${doctorId}/${patientId}`,config)
 
     console.log(removePatient);
   }
