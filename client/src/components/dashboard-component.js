@@ -18,6 +18,12 @@ export default function Dashboard(){
     const options = { year: "numeric", month: "long", day: "numeric"}
     var chart;
 
+    const [doc,setDoctor] = useState("");
+
+    window.onload = () => {
+      AuthService.getDoctor(setDoctor);
+      }
+
 
     const updateData=(dataPoints)=>{
       console.log("START")
@@ -76,7 +82,7 @@ export default function Dashboard(){
           <div className="row">
             <div class="tile job" style={{marginLeft:"70px"}}>
             <div class="header">
-              <div class="count">4.5<FontAwesomeIcon icon={faStar} style={{color: "#f9b41f", marginLeft:"3px"}} /></div>
+              <div class="count">{doc.rating}<FontAwesomeIcon icon={faStar} style={{color: "#f9b41f", marginLeft:"3px"}} /></div>
             </div>
             <div class="body">
               <div class="title">Rating</div>

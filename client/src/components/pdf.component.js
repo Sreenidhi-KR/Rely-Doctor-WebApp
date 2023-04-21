@@ -248,7 +248,7 @@ const PDF = (props) => {
           </div>
         </div>
       </section>
-      <div>
+      <div style={{display:"inline-flex"}}>
         <Pdf targetRef={ref} filename="prescription.pdf">
           {({ toPdf }) => (
             <button
@@ -256,12 +256,13 @@ const PDF = (props) => {
                 marginLeft: "150px",
                 width: "200px",
                 marginBottom: "20px",
+                marginTop:"10px",
+                height:"100px"
               }}
               class="btn btn-primary btn-lg btn-block"
               type="submit"
               onClick={() => {
                 toPdf();
-                setValue(true);
               }}
             >
               Generate Prescription
@@ -270,7 +271,7 @@ const PDF = (props) => {
         </Pdf>
         <button
           disabled={!value}
-          style={{ marginLeft: "20px", width: "200px", marginBottom: "20px" }}
+          style={{ marginLeft: "300px", width: "200px", height:"100px", marginBottom: "20px" }}
           class="btn btn-primary btn-lg btn-block"
           type="submit"
           onClick={() => {
@@ -280,11 +281,12 @@ const PDF = (props) => {
           Upload Prescription
         </button>
         <input
-          style={{ marginLeft: "20px" }}
+          style={{ marginLeft: "20px", marginTop:"36px" }}
           className="add-form-input"
           type="file"
           placeholder="Photo URL"
           onChange={handleUpload}
+          onClick = {() => {setValue(true);}}
         />
       </div>
     </>
