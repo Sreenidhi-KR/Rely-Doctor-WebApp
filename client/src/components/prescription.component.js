@@ -5,7 +5,7 @@ import authService from "../services/auth.service";
 
 function Prescription(doctor) {
   const [show, setShow] = useState(false);
-
+  const [tablet, setTablet] = useState(1);
   const handleShow = () => setShow(true);
   const [display, setDisplay]=useState("show");
 
@@ -16,7 +16,6 @@ function Prescription(doctor) {
   const [symptoms, setSymptoms] = useState("");
   const [patientFname, setPatientFname] = useState("");
   const [patientLname, setPatientLname] = useState("");
-  const [patientPhoneNo, setPatientPhoneNo] = useState("");
   const [postSubmitted, setPostSubmitted] = useState(0);
   const [followUpDate, setFollowUpDate] = useState("");
 
@@ -33,6 +32,8 @@ function Prescription(doctor) {
   };
 
   const addFields = (e) => {
+    setTablet(tablet+1)
+    console.log("tablest",tablet);
     e.preventDefault();
     let object = {
       Name: "",
@@ -44,6 +45,7 @@ function Prescription(doctor) {
   };
 
   const removeFields = (e) => {
+    setTablet(tablet-1);
     e.preventDefault();
     let data = [...formFields];
     data.splice(-1);
@@ -65,9 +67,9 @@ function Prescription(doctor) {
 
   return (
     <>
-      <Button class="btn btn-outline-primary" onClick={handleShow} style={{fontSize:"25px", fontWeight:"bold", color:"white", backgroundColor:"#5e17eb"}}>
+      <button class="btn btn-outline-warning" onClick={handleShow} style={{fontSize:"20px", fontWeight:"bold"}}>
         Generate Prescription
-      </Button>
+      </button>
 
       <Modal size='xl' show={show} onHide={handleClose} style={{marginTop:"20px"}}>
         <section style={{width:"130%", marginLeft:"80px", height:"750px", overflowY:"auto", overflowX:"clip", display:`${display}`}}>
@@ -85,7 +87,7 @@ function Prescription(doctor) {
                     <div class="col">
                       <div class="form-outline">
                         <label class="form-label" for="form6Example1">
-                          Doctor
+                        <img src={require('./../img/HadLOGO.jpeg')} alt="Mountain" style={{width:"144px",height:"54px", backgroundColor:"#5e17eb", borderRadius:"10px"}}></img>
                         </label>
                       </div>
                     </div>
@@ -94,12 +96,15 @@ function Prescription(doctor) {
                         <label class="form-label" for="form6Example2">
                           Name : {doctor.doctor.fname} {doctor.doctor.lname}
                         </label>
+                        <br></br>
                         <label class="form-label" for="form6Example2">
                           Address : {doctor.doctor.clinic_address}
                         </label>
+                        <br></br>
                         <label class="form-label" for="form6Example2">
                           Qualification : {doctor.doctor.qualification}
                         </label>
+                        <br></br>
                         <label class="form-label" for="form6Example2">
                           Phone No : +91 9999888800
                         </label>
@@ -140,18 +145,6 @@ function Prescription(doctor) {
                           />
                         </div>
                       </div>
-                    </div>
-
-                    <div class="form-outline mb-4">
-                      <label class="form-label" for="form6Example3">
-                        Phone
-                      </label>
-                      <input
-                        type="number"
-                        id="form6Example3"
-                        class="form-control"
-                        onChange={(e) => setPatientPhoneNo(e.target.value)}
-                      />
                     </div>
 
                     <hr class="my-4" />
@@ -256,12 +249,13 @@ function Prescription(doctor) {
                               Remove
                             </button>
                             &nbsp;&nbsp;
+                            {tablet < 5 ? (
                             <button
                               class="btn btn-outline-primary btn-lg"
                               onClick={(e) => addFields(e)}
                             >
                               Add More
-                            </button>
+                            </button>) : <div></div>}
                           </div>
                         </div>
                       </div>
@@ -316,7 +310,7 @@ function Prescription(doctor) {
         <button style={{marginLeft:"400px",display:`${display}`, marginBottom:"30px", width:"300px", marginTop:"30px", backgroundColor:"#5e17eb"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={submitPost}>
         Generate Preview
     </button>
-    {postSubmitted ? <PDF remarks={remarks} formFields={formFields} symptoms={symptoms} patientFname={patientFname} patientLname={patientLname} patientPhoneNo={patientPhoneNo} doctor={doctor} followUpDate={followUpDate}></PDF>:null}
+    {postSubmitted ? <PDF remarks={remarks} formFields={formFields} symptoms={symptoms} patientFname={patientFname} patientLname={patientLname} doctor={doctor} followUpDate={followUpDate}></PDF>:null}
       </Modal>
      
     </>

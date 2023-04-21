@@ -10,21 +10,19 @@ import PatientDocuments from "../components/patientDocuments";
 import DoctorQueue from "./queue.component";
 import authService from "../services/auth.service";
 window.Buffer = window.Buffer || require("buffer").Buffer;
-const {RtcTokenBuilder, RtcRole} = require('agora-access-token')
+const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
-
-const urlBase = "http://localhost:8080/api/v1";
+const urlBase = "https://ad0f-119-161-98-68.ngrok-free.app/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
   const [tokenA, setTokenA] = useState(0);
   const [doctor, setDoctor] = useState([]);
   const [channelName, setChannelName] = useState("");
-  const [consultationId,setConsultationId]=useState(-1);
+  const [consultationId, setConsultationId] = useState(-1);
   const [isQueueLimit, setQueueLimit] = useState(false);
   const [isQSet, setQ] = useState(false);
-  const [open, setOpen] = useState(false)
-
+  const [open, setOpen] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("doctor"));
   console.log(user.id);
@@ -33,12 +31,12 @@ function VideoCall() {
     headers: {
       "ngrok-skip-browser-warning": "true",
       Authorization: "Bearer " + user.accessToken,
-    }
+    },
   };
   const appId = "5e2ee6c6fc13459caa99cb8c234d42e0";
   const appCertificate = "6529c2900f7442b89b7b46666fdca9de";
   var channelId = "";
-  const userAccount="";
+  const userAccount = "";
   const uid = "0";
   const role = RtcRole.PUBLISHER;
   const expirationTimeInSeconds = 3600;
@@ -51,7 +49,7 @@ function VideoCall() {
     token: "",
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     rtcProps["token"] = tokenA;
     rtcProps["channel"] = channelName;
   });
@@ -80,41 +78,41 @@ function VideoCall() {
       });
   };
 
-  const handleConfirm = result => {
+  const handleConfirm = (result) => {
     if (result) {
-      console.log('some action...')
+      console.log("some action...");
     }
-    
-    setOpen(false)
-  }
+
+    setOpen(false);
+  };
 
   const updateQLimit = async (event) => {
-    console.log(isQueueLimit)
-    setQ(true)
-    authService.setQueueLimit(doctor.id,isQueueLimit)
-  }
+    console.log(isQueueLimit);
+    setQ(true);
+    authService.setQueueLimit(doctor.id, isQueueLimit);
+  };
 
   const acceptPatient = async (event) => {
     setOpen(true);
-  }
+  };
 
-  const acceptedPatient = async(event) => {
+  const acceptedPatient = async (event) => {
     setOpen(false);
     authService.acceptPatient(true);
-  }
+  };
 
-  const rejectedPatient = async(event) => {
+  const rejectedPatient = async (event) => {
     setOpen(false);
     authService.acceptPatient(false);
     alert("Leave the call");
     callbacks.EndCall();
-  }
+  };
 
   const leftPatient = () => {
-    console.log("Left Patient")
+    console.log("Left Patient");
     authService.acceptPatient(false);
     setOpen(true);
-  }
+  };
 
   window.onload = () => {
     getDoctor(setDoctor);
@@ -125,17 +123,27 @@ function VideoCall() {
     setChannelName(strng);
   };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // alert("let patient In");
     // authService.acceptPatient()
     channelId = channelName.toString();
-    const tok = await RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelId, uid, role, privilegeExpiredTs);
+    const tok = await RtcTokenBuilder.buildTokenWithUid(
+      appId,
+      appCertificate,
+      channelId,
+      uid,
+      role,
+      privilegeExpiredTs
+    );
     setTokenA(tok);
     doctor.token = tok;
     doctor.channel_name = channelId;
     doctor.online_status = true;
-    console.log("###############################################################################################-",tok)
+    console.log(
+      "###############################################################################################-",
+      tok
+    );
     setDoctor(doctor);
     updateDoctor(setDoctor);
     setVideoCall(true);
@@ -143,12 +151,12 @@ function VideoCall() {
   };
 
   window.addEventListener("beforeunload", (ev) => {
-          ev.preventDefault();
-          doctor.online_status = false;
-          updateDoctor(setDoctor);    
-          authService.removePatients(doctor.id);
-          callbacks.EndCall();
-          return null;
+    ev.preventDefault();
+    doctor.online_status = false;
+    updateDoctor(setDoctor);
+    authService.removePatients(doctor.id);
+    callbacks.EndCall();
+    return null;
   });
 
   const callbacks = {
@@ -160,91 +168,112 @@ function VideoCall() {
       updateDoctor(setDoctor);
       authService.removePatients(doctor.id);
       setVideoCall(false);
-
     },
-    'user-joined': () => console.log("User Joined"),
-    'user-left':() => {leftPatient();},
-    };
+    "user-joined": () => console.log("User Joined"),
+    "user-left": () => {
+      leftPatient();
+    },
+  };
 
-  async function getConsultationId(){
-    let cid= await AuthService.getConsultationId();
+  async function getConsultationId() {
+    let cid = await AuthService.getConsultationId();
     setConsultationId(cid);
-    console.log('+++++',cid);
+    console.log("+++++", cid);
   }
 
   return videoCall ? (
     <div>
-      <Container fluid style={{marginTop:"15px"}}>
+      <Container fluid style={{ marginTop: "15px" }}>
         <Row>
           <Col>
             <DoctorQueue />
           </Col>
-          <Col style={{marginLeft:"1px"}}>
+          <Col style={{ marginLeft: "1px" }}>
             <div
               style={{
                 display: "flex",
-                width: "50vw",
-                height: "90vh",
+                width: "47vw",
+                height: "89vh",
                 border: "5px solid dodgerblue",
                 borderRadius: "10px",
-                marginLeft:"10px"
+                marginLeft: "10px",
               }}
             >
               <AgoraUIKit rtcProps={rtcProps} callbacks={callbacks} />
             </div>
           </Col>
-          <Col style={{marginLeft:"50px"}}>
+          <Col style={{ marginLeft: "0px" }}>
             <PatientDocuments doctor={doctor}></PatientDocuments>
           </Col>
         </Row>
-        <div className={open ? 'confirm show' : 'confirm'}>
-        <div className="confirm-content">
-          <h4 style={{color:"purple"}}>CONFIRM</h4>
-          <div>
-            <h2 style={{marginTop:"35px",fontSize:"27px",color:"blue"}}>Start Accepting Patients</h2>
+        <div className={open ? "confirm show" : "confirm"}>
+          <div className="confirm-content">
+            <h4 style={{ color: "orange",fontSize:"21px" }}>CONFIRM</h4>
+            <div>
+              <h2
+                style={{ marginTop: "35px", fontSize: "21px", fontWeight:"bold", color: "#5e17eb", textAlign:"center" }}
+              >
+                Accept Patient or Quit Consultation ?
+              </h2>
+            </div>
+          </div>
+          <div className="confirm-btns">
+            <button class="btn btn-outline-success btn-lg" style={{marginLeft:"12px",marginTop:"18px", width:"160px", height:"50px"}}  onClick={() => acceptedPatient()}>
+              Allow
+            </button>
+            <button class="btn btn-outline-danger btn-lg" style={{marginLeft:"12px",marginTop:"18px", width:"160px", height:"50px"}} onClick={() => rejectedPatient()}>
+              Quit
+            </button>
           </div>
         </div>
-        <div className="confirm-btns">
-          <button class="yes" onClick={() => acceptedPatient()}>Allow</button>
-          <button class="no" onClick={() => rejectedPatient()}>Quit</button>
-        </div>
-      </div>
-      <div 
-        className="overlay" 
-        onClick={() => handleConfirm(false)} 
-      />
+        <div className="overlay" onClick={() => handleConfirm(false)} />
       </Container>
-
     </div>
   ) : (
     <div>
-    <div style={{display:"inline-flex" , marginLeft:"43%", marginTop:"15%"}}>
-      <button type="submit"
-          class="btn btn-outline-secondary btn-lg"
-          onClick={updateQLimit}>Set Queue Limit</button>
-      <input
-        style={{borderRadius:"5px",marginLeft:"10px",paddingLeft:"12px", width:"60px"}}
-        name="Rating"
-        id="Rating"
-        className="add-form-input"
-        required
-        type="number" 
-        min="1" 
-        max="20"
-        value={isQueueLimit}
-        placeholder={doctor.limit}
-        onChange={(e) => {
-          console.log(e.target.value);
-          setQueueLimit(e.target.value)
-        }}
+      <div
+        style={{ display: "inline-flex", marginLeft: "43%", marginTop: "15%" }}
       >
-      </input>
+        <button
+          type="submit"
+          class="btn btn-outline-secondary btn-lg"
+          onClick={updateQLimit}
+        >
+          Set Queue Limit
+        </button>
+        <input
+          style={{
+            borderRadius: "5px",
+            marginLeft: "10px",
+            paddingLeft: "12px",
+            width: "60px",
+          }}
+          name="Rating"
+          id="Rating"
+          className="add-form-input"
+          required
+          type="number"
+          min="1"
+          max="20"
+          value={isQueueLimit}
+          placeholder={doctor.limit}
+          onChange={(e) => {
+            console.log(e.target.value);
+            setQueueLimit(e.target.value);
+          }}
+        ></input>
       </div>
-    <form onSubmit={handleSubmit}>
-      <button type="submit" class="btn btn-outline-primary btn-lg" disabled={!isQSet} style={{marginLeft:"43%",marginTop:"1%"}} onClick={handle}>
-        Join Video Consultation
-      </button>
-    </form>
+      <form onSubmit={handleSubmit}>
+        <button
+          type="submit"
+          class="btn btn-outline-primary btn-lg"
+          disabled={!isQSet}
+          style={{ marginLeft: "43%", marginTop: "1%" }}
+          onClick={handle}
+        >
+          Join Video Consultation
+        </button>
+      </form>
     </div>
   );
 }

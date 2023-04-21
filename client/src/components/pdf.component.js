@@ -11,6 +11,7 @@ const handleUpload = (e) => {
 
 const PDF = (props) => {
   const [value, setValue] = useState(false);
+  const [show, setShow] = useState(false);
 
   const handlePrescriptionUpload = (file) => {
     console.log("Handle Prescription");
@@ -46,7 +47,7 @@ const PDF = (props) => {
                   <div class="col">
                     <div class="form-outline">
                       <label class="form-label" for="form6Example1">
-                        Doctor
+                      <img src={require('./../img/HadLOGO.jpeg')} alt="Mountain" style={{width:"144px",height:"54px"}}></img>
                       </label>
                     </div>
                   </div>
@@ -56,12 +57,15 @@ const PDF = (props) => {
                         Name : {props.doctor.doctor.fname}{" "}
                         {props.doctor.doctor.lname}
                       </label>
+                      <br></br>
                       <label class="form-label" for="form6Example2">
                         Address : {props.doctor.doctor.clinic_address}
                       </label>
+                      <br></br>
                       <label class="form-label" for="form6Example2">
                         Qualification : {props.doctor.doctor.qualification}
                       </label>
+                      <br></br>
                       <label class="form-label" for="form6Example2">
                         Phone No : +91 9999888800
                       </label>
@@ -98,8 +102,6 @@ const PDF = (props) => {
                             marginLeft: "125px",
                           }}
                         >
-                          <p style={{ fontWeight: "bold" }}>Phone No : </p>{" "}
-                          &nbsp;{props.patientPhoneNo}
                         </label>
                       </div>
                     </div>
@@ -259,20 +261,23 @@ const PDF = (props) => {
                 marginTop:"10px",
                 height:"100px"
               }}
-              class="btn btn-primary btn-lg btn-block"
+              class="btn btn-outline-primary btn-lg btn-block"
               type="submit"
               onClick={() => {
                 toPdf();
+                setShow(true);
               }}
             >
               Generate Prescription
             </button>
           )}
         </Pdf>
+        {show ?(
+          <div style={{display:"inline-flex"}}>
         <button
           disabled={!value}
           style={{ marginLeft: "300px", width: "200px", height:"100px", marginBottom: "20px" }}
-          class="btn btn-primary btn-lg btn-block"
+          class="btn btn-outline-success btn-lg btn-block"
           type="submit"
           onClick={() => {
             handlePrescriptionUpload(file);
@@ -281,13 +286,15 @@ const PDF = (props) => {
           Upload Prescription
         </button>
         <input
-          style={{ marginLeft: "20px", marginTop:"36px" }}
+          style={{ marginLeft: "10px", marginTop:"36px" }}
           className="add-form-input"
           type="file"
           placeholder="Photo URL"
           onChange={handleUpload}
           onClick = {() => {setValue(true);}}
-        />
+        /> 
+        </div>) : <div></div>
+        }
       </div>
     </>
   );

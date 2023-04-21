@@ -14,7 +14,7 @@ function DoctorQueue() {
   const handleRemove = (patientId) => {
     alert("Kicking out patient from the call");
     AuthService.removePatientFromQueue(patientId);
-  }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -40,107 +40,141 @@ function DoctorQueue() {
     <div> LOADING</div>
   ) : (
     <div style={{ marginLeft: "63px" }}>
-      <h1 style={{ fontWeight: "bold", fontSize: "25px", color: "#5e17eb" }}>
-        Patients Queue
-      </h1>
       <div
-        class="card text-white bg-info mb-3"
+        class="card text-white mb-3"
         style={{
-          width: "350px",
-          marginLeft: "1px",
-          marginTop: "10px",
+          width: "400px",
+          height: "805px",
+          marginTop: "5px",
+          borderRadius: "10px",
+          overflowY: "scroll",
+          overflowX: "hidden",
         }}
       >
-        <div
-          class="card-header"
-          style={{ fontWeight: "bolder", fontSize: "25px", display:"flex"}}
-        >
-          Fname lname
-            <FontAwesomeIcon
-              icon={faInfoCircle}
-              onClick={() => setDetails(isDetails ? false : true)}
-              style={{ fontSize: "25px", color: "blue", marginLeft:"auto", marginRight:"5px", marginTop:"7px",float:"right"}}
-            />
+      <div class="card-header">
+          <h1
+            style={{
+              alignSelf: "center",
+              fontWeight: "bolder",
+              fontSize: "23px",
+              display: "flex",
+              marginLeft: "25%",
+              color: "#5e17eb",
+            }}
+          >
+            Patient Queue
+          </h1>
         </div>
-
-        {isDetails && (
-          <div class="card-body">
-            <h5 class="card-title" style={{ color: "white", fontWeight:"bold", align:"center", fontSize:"20px"}}>
-              Patient Details
-            </h5>
-            <p class="card-text" style={{ color: "white", fontWeight:"italic", fontSize:"18px" }}>
-              Sex:{" "}
-            </p>
-            <p class="card-text" style={{ color: "white",fontWeight:"italic", fontSize:"18px" }}>
-              Blood Group:{" "}
-            </p>
-          </div>
-        )}
-        <button class="btn btn-outline-warning btn-md" onClick = {() => handleRemove(5)} style={{ marginTop:"15px", fontSize:"18px", fontWeight:"bold"}}>Remove Patient</button>
-      </div>
-      <ListGroup>
-        {patients.map((patient, i) => {
+        {patients.length ? patients.map((patient, i) => {
           if (i === 0) {
             return (
               <div
-                class="card text-white bg-info mb-3"
+                class="card text-white mb-3"
                 style={{
-                  width: "250px",
+                  width: "350px",
                   marginLeft: "1px",
-                  height: "200px",
                   marginTop: "10px",
+                  borderRadius: "10px",
                 }}
               >
                 <div
                   class="card-header"
-                  style={{ fontWeight: "bolder", fontSize: "20px" }}
+                  style={{
+                    fontWeight: "bolder",
+                    fontSize: "20px",
+                    display: "flex",
+                    color: "#5e17eb",
+                  }}
                 >
-                  {patient.fname} {patient.lname}
-                  <button onClick={() => setDetails(isDetails ? false : true)}>
-                    {" "}
-                    <FontAwesomeIcon
-                      icon={faInfoCircle}
-                      style={{ fontSize: "25px", color: "#5e17eb" }}
-                    />
-                  </button>
+                  Fname lname
+                  <FontAwesomeIcon
+                    icon={faInfoCircle}
+                    onClick={() => setDetails(isDetails ? false : true)}
+                    style={{
+                      fontSize: "25px",
+                      color: "#5e17eb",
+                      marginLeft: "auto",
+                      marginRight: "5px",
+                      marginTop: "5px",
+                      float: "right",
+                    }}
+                  />
                 </div>
 
                 {isDetails && (
                   <div class="card-body">
-                    <h5 class="card-title" style={{ color: "white" }}>
+                    <h5
+                      class="card-title"
+                      style={{
+                        color: "#5e17eb",
+                        fontWeight: "bold",
+                        align: "center",
+                        fontSize: "19px",
+                      }}
+                    >
                       Patient Details
                     </h5>
-                    <p class="card-text" style={{ color: "white" }}>
-                      Sex: {patient.sex}
+                    <p
+                      class="card-text"
+                      style={{
+                        fontWeight: "italic",
+                        fontSize: "18px",
+                        color: "#5e17eb",
+                      }}
+                    >
+                      Sex:{" "}
                     </p>
-                    <p class="card-text" style={{ color: "white" }}>
-                      Blood Group: {patient.age}
+                    <p
+                      class="card-text"
+                      style={{
+                        color: "#5e17eb",
+                        fontWeight: "italic",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Blood Group:{" "}
                     </p>
                   </div>
                 )}
+                <button
+                  class="btn btn-outline-danger btn-md"
+                  onClick={() => handleRemove(5)}
+                  style={{
+                    marginTop: "15px",
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Remove Patient
+                </button>
               </div>
             );
           }
           return (
             <div
-              class="card text-white bg-info mb-3"
+              class="card text-white mb-3"
               style={{
-                width: "250px",
+                width: "350px",
                 marginLeft: "1px",
-                height: "100px",
                 marginTop: "10px",
+                borderRadius: "10px",
               }}
             >
               <div
                 class="card-header"
-                style={{ fontWeight: "bolder", fontSize: "20px" }}
+                style={{
+                  fontWeight: "bolder",
+                  fontSize: "20px",
+                  display: "flex",
+                  color: "#5e17eb",
+                }}
               >
-                {patient.fname} {patient.lname}
+                Fname lname
               </div>
             </div>
           );
-        })}
-      </ListGroup>
+        }) : <div><p style={{marginLeft:"31%",marginTop:"25%", fontWeight:"bold"}}>- Queue Is Empty -</p></div> }
+        </div>
     </div>
   );
 }
