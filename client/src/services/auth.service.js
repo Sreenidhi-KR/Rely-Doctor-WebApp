@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "http://localhost:8080/api";
+const urlBase = "https://ad0f-119-161-98-68.ngrok-free.app/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
 console.log(urlBase)
 var config = null;
