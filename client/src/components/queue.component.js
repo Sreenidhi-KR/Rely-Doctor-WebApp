@@ -86,7 +86,7 @@ function DoctorQueue() {
                     color: "#5e17eb",
                   }}
                 >
-                  Fname lname
+                  {patient.fname} {patient.lname}
                   <FontAwesomeIcon
                     icon={faInfoCircle}
                     onClick={() => setDetails(isDetails ? false : true)}
@@ -122,7 +122,7 @@ function DoctorQueue() {
                         color: "#5e17eb",
                       }}
                     >
-                      Sex:{" "}
+                      Sex: {patient.sex}
                     </p>
                     <p
                       class="card-text"
@@ -132,13 +132,13 @@ function DoctorQueue() {
                         fontSize: "18px",
                       }}
                     >
-                      Blood Group:{" "}
+                      Blood Group: {patient.blood_group}
                     </p>
                   </div>
                 )}
                 <button
                   class="btn btn-outline-danger btn-md"
-                  onClick={() => handleRemove(5)}
+                  onClick={() => handleRemove(patient.id)}
                   style={{
                     marginTop: "15px",
                     fontSize: "18px",
