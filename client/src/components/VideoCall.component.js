@@ -107,6 +107,7 @@ function VideoCall() {
     setOpen(false);
     authService.acceptPatient(false);
     alert("Leave the call");
+    callbacks.EndCall();
   }
 
   const leftPatient = () => {
@@ -146,6 +147,7 @@ function VideoCall() {
           doctor.online_status = false;
           updateDoctor(setDoctor);    
           authService.removePatients(doctor.id);
+          callbacks.EndCall();
           return null;
   });
 
@@ -203,8 +205,8 @@ function VideoCall() {
           </div>
         </div>
         <div className="confirm-btns">
-          <button class="yes" onClick={() => acceptedPatient()}>YES</button>
-          <button class="no" onClick={() => rejectedPatient()}>NO</button>
+          <button class="yes" onClick={() => acceptedPatient()}>Allow</button>
+          <button class="no" onClick={() => rejectedPatient()}>Quit</button>
         </div>
       </div>
       <div 

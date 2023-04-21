@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import AuthService from "../services/auth.service";
 import ListGroup from "react-bootstrap/ListGroup";
-import Button from "react-bootstrap/Button";
 import Prescription from "./prescription.component";
 
 
 function PatientDocuments({ doctor }) {
-  const [documents, setDocuments] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const [documents, setDocuments] = useState([]);
 
   
 
@@ -38,7 +37,7 @@ function PatientDocuments({ doctor }) {
       <br></br>
       <h1 style={{fontWeight:"bold", fontSize:"25px",color:"#5e17eb"}}>Documents Shared</h1>
       <ListGroup>
-        {documents.map((document) => (
+        {documents.sort((a,b) => a.id - b.id).map((document) => (
           <div className="d-grid gap-2 m-3">
             <a class="btn btn-info" style={{width:"250px", marginLeft:"10px", marginTop:"10px"}}
               size="lg"

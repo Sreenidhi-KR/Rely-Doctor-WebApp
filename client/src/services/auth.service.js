@@ -258,6 +258,16 @@ class AuthService {
     console.log("togggggggling",toggle);
   }
 
+  removePatientFromQueue = async(patientId) => {
+    const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
+    console.log("ajsdbajsdbjda",doctorId);
+    console.log(patientId);
+    let removePatient = await axios
+    .get(`${urlBase}/v1/dequeue/removePatient/${doctorId}/${patientId}`,config)
+
+    console.log(removePatient);
+  }
+
 }
 
 export default new AuthService();
