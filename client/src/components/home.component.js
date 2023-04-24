@@ -36,7 +36,6 @@ export default class Home extends Component {
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing
                                 elit sed do eiusmod tempor incididunt ut labore et dolore
                                 magna aliqua. Quis ipsum suspendisse ultrices gravida.Risus cmodo viverra </p>
-                            <a href="#" class="btn_2">Make an appointment</a>
 
                         </div>
                     </div>
@@ -64,7 +63,6 @@ export default class Home extends Component {
                             do eiusmod tempor incididunt ut labore et dolore magna aliqua
                             Quis ipsum suspendisse ultrices gravida. Risus cmodo viverra
                             maecenas accumsan lacus vel</p>
-                        <a class="btn_2 " href="#">learn more</a>
                         <div class="banner_item">
                             <div class="single_item">
                             <img src={require('./../img/icon/banner_1.svg').default}/>

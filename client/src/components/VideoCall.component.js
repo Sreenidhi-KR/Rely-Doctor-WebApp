@@ -23,7 +23,6 @@ function VideoCall() {
   const [isQueueLimit, setQueueLimit] = useState(false);
   const [isQSet, setQ] = useState(false);
   const [open, setOpen] = useState(false);
-  const [documents, setDocuments] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("doctor"));
   console.log(user.id);
@@ -151,7 +150,6 @@ function VideoCall() {
 
   window.addEventListener("beforeunload", (ev) => {
     ev.preventDefault();
-    setDocuments([]);
     doctor.online_status = false;
     updateDoctor(setDoctor);
     authService.removePatients(doctor.id);
@@ -166,7 +164,7 @@ function VideoCall() {
       doctor.online_status = false;
       setDoctor(doctor);
       updateDoctor(setDoctor);
-      authService.removePatients(doctor.id);
+      authService.removePatients(doctor.id); 
       setVideoCall(false);
     },
     "user-joined": () => console.log("User Joined"),
@@ -203,7 +201,7 @@ function VideoCall() {
             </div>
           </Col>
           <Col style={{ marginLeft: "0px" }}>
-            <PatientDocuments doctor={doctor} documents={documents} setDocuments={setDocuments}></PatientDocuments>
+            <PatientDocuments doctor={doctor}></PatientDocuments>
           </Col>
         </Row>
         <div className={open ? "confirm show" : "confirm"}>

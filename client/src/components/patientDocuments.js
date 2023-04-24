@@ -3,8 +3,9 @@ import AuthService from "../services/auth.service";
 import ListGroup from "react-bootstrap/ListGroup";
 import Prescription from "./prescription.component";
 
-function PatientDocuments({ doctor, documents, setDocuments }) {
+function PatientDocuments({ doctor}) {
   const [isLoading, setLoading] = useState(true);
+  const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
     var interval;
