@@ -5,7 +5,7 @@ import Notification from "./notification-component";
 import { withRouter } from "../common/with-router";
 
 
-class Login extends Component {
+class Login extends Component { 
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);

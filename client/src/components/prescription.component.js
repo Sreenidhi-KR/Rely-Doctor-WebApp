@@ -310,7 +310,7 @@ function Prescription(doctor) {
         <button style={{marginLeft:"400px",display:`${display}`, marginBottom:"30px", width:"300px", marginTop:"30px", backgroundColor:"#5e17eb"}} class="btn btn-primary btn-lg btn-block" type="submit" onClick={submitPost}>
         Generate Preview
     </button>
-    {postSubmitted ? <PDF remarks={remarks} formFields={formFields} symptoms={symptoms} patientFname={patientFname} patientLname={patientLname} doctor={doctor} followUpDate={followUpDate}></PDF>:null}
+    {postSubmitted ? <PDF handleClose = {handleClose} remarks={remarks} formFields={formFields} symptoms={symptoms} patientFname={patientFname} patientLname={patientLname} doctor={doctor} followUpDate={followUpDate}></PDF>:null}
       </Modal>
      
     </>

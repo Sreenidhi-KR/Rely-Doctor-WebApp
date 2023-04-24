@@ -13,53 +13,17 @@ const handleUpload = (e) => {
 const PDF = (props) => {
   const [value, setValue] = useState(false);
   const [show, setShow] = useState(false);
-  const [notification, setNotification] = useState(null);
-  const [notificationType, setNotificationType] = useState(null);
-  const [notify, setNotify] = useState(false);
-  const [message, setMessage] = useState("");
-
-  const notificationHandler = (message, type) => {
-    setNotification(message);
-    setNotificationType(type);
-    setNotify(true);
-
-    setTimeout(() => {
-      setNotificationType(null);
-      setNotification(null);
-      setNotify(false);
-    }, 2500);
-  };
 
   const handlePrescriptionUpload = (file) => {
     console.log("Handle Prescription");
     const id = JSON.parse(localStorage.getItem("doctor")).id;
-    authService.uploadPrescription(id, file).then(
-      () => {
-        notificationHandler(`Uploaded Prescription!`, "success");
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setMessage(resMessage);
-        this.notificationHandler(`Error while uploading prescription`, "error");
-      }
-    );
+    authService.uploadPrescription(id, file);
   };
 
   console.log(props.formFields);
   console.log(props.doctor);
   return (
     <>
-      <Notification
-        notify={notify}
-        notification={notification}
-        type={notificationType}
-      />
       <section
         ref={ref}
         style={{
@@ -325,7 +289,7 @@ const PDF = (props) => {
               class="btn btn-outline-success btn-lg btn-block"
               type="submit"
               onClick={() => {
-                handlePrescriptionUpload(file);
+                handlePrescriptionUpload(file); props.handleClose();
               }}
             >
               Upload Prescription

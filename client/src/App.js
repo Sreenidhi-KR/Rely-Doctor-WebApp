@@ -12,6 +12,7 @@ import Profile from "./components/profile.component";
 import VideoCall from './components/VideoCall.component';
 import EventBus from "./common/EventBus";
 import Dashboard from "./components/dashboard-component";
+import PrivateRoute from "./PrivateRoute";
 
 class App extends Component {
   constructor(props) {
@@ -82,12 +83,12 @@ class App extends Component {
 
         <div>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/video" element={<VideoCall/>} />
+            <Route path="/" element={<Home/>} />
+            <Route path="/home" element={<Home/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/dashboard" element={<PrivateRoute Component={Dashboard}/>} />
+            <Route path="/profile" element={<PrivateRoute Component={Profile}/>} />
+            <Route path="/video/*" element={<PrivateRoute Component={VideoCall}/>} />
           </Routes>
         </div>
       </div>
