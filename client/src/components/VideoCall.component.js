@@ -12,7 +12,7 @@ import authService from "../services/auth.service";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
-const urlBase = "https://ad0f-119-161-98-68.ngrok-free.app/api/v1";
+const urlBase = "https://localhost:8080/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -53,6 +53,7 @@ function VideoCall() {
     rtcProps["token"] = tokenA;
     rtcProps["channel"] = channelName;
   });
+
   const getDoctor = (setDoctor) => {
     axios
       .get(`${urlBase}/doctor/getDoctorById/${user.id}`, config)

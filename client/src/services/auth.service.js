@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "https://ad0f-119-161-98-68.ngrok-free.app/api";
+const urlBase = "https://localhost:8080/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
 console.log(urlBase)
 var config = null;
@@ -48,9 +48,10 @@ class AuthService {
         if (response.data.accessToken) {
           localStorage.setItem("doctor", JSON.stringify(response.data));
         }
-
         return response.data;
+
       });
+
   }
 
   logout() {
@@ -261,11 +262,11 @@ class AuthService {
   removePatientFromQueue = async(patientId) => {
     const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
     console.log("ajsdbajsdbjda",doctorId);
-    console.log(patientId);
+    console.log("ajsdbajsdbjda",patientId);
     let removePatient = await axios
     .get(`${urlBase}/v1/dqueue/removePatient/${doctorId}/${patientId}`,config)
 
-    console.log(removePatient);
+    console.log("ajsdbajsdbjda",removePatient);
   }
 
 }
