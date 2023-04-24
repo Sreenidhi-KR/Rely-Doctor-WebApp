@@ -9,6 +9,8 @@ import AuthService from "../services/auth.service";
 import PatientDocuments from "../components/patientDocuments";
 import DoctorQueue from "./queue.component";
 import authService from "../services/auth.service";
+import Notification from "./notification-component";
+
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
@@ -23,6 +25,11 @@ function VideoCall() {
   const [isQueueLimit, setQueueLimit] = useState(false);
   const [isQSet, setQ] = useState(false);
   const [open, setOpen] = useState(false);
+  const [documents, setDocuments] = useState([]);
+  const [ notification, setNotification ] = useState(null)
+  const [ notificationType, setNotificationType ] = useState(null)
+  const [notify, setNotify] = useState(false);
+  const [message, setMessage] = useState("");
 
   const user = JSON.parse(localStorage.getItem("doctor"));
   console.log(user.id);
@@ -67,6 +74,20 @@ function VideoCall() {
       });
   };
 
+  const notificationHandler = (message, type) => {
+    console.log("noassdhbsadsd")
+    setNotification(message)
+    setNotificationType(type)
+    setNotify(true)
+
+    setTimeout(() => {
+      setNotificationType(null)
+      setNotification(null)
+      setNotify(false)  
+
+    }, 2500)
+  }
+
   const updateDoctor = (setDoctor) => {
     axios
       .post(`${urlBase}/doctor/updateDoctor`, doctor, config)
@@ -89,19 +110,31 @@ function VideoCall() {
   const updateQLimit = async (event) => {
     console.log(isQueueLimit);
     setQ(true);
-    authService.setQueueLimit(doctor.id, isQueueLimit);
+    authService.setQueueLimit(doctor.id, isQueueLimit).then(()=>{
+      notificationHandler(`Queue Limit is set to value ${isQueueLimit}!`, 'success')
+    },(error) => {
+      const resMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+        setMessage(resMessage);
+      this.notificationHandler(`Error while setting Queue Limit`, 'error');
+    });
   };
 
-  const acceptPatient = async (event) => {
+  const acceptPatient = async () => {
     setOpen(true);
   };
 
-  const acceptedPatient = async (event) => {
+  const acceptedPatient = async () => {
     setOpen(false);
     authService.acceptPatient(true);
   };
 
-  const rejectedPatient = async (event) => {
+  const rejectedPatient = async () => {
     setOpen(false);
     authService.acceptPatient(false);
     callbacks.EndCall();
@@ -231,6 +264,7 @@ function VideoCall() {
     </div>
   ) : (
     <div>
+      <Notification notify={notify} notification={notification} type={notificationType} />
       <div
         style={{ display: "inline-flex", marginLeft: "43%", marginTop: "15%" }}
       >
