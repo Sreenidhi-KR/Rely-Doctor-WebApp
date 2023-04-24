@@ -108,12 +108,15 @@ function DoctorQueue() {
                       style={{
                         color: "#5e17eb",
                         fontWeight: "bold",
-                        align: "center",
+                        textAlign: "center",
                         fontSize: "19px",
                       }}
                     >
                       Patient Details
                     </h5>
+                    <div style={{alignContent:"center"}}>
+                    <img style={{width:"120px", height:"120px", marginTop:"10px", marginLeft:"65px", marginBottom:"10px"}} class="rounded-circle shadow-4-strong" alt="avatar2" src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp" />
+                    </div>
                     <p
                       class="card-text"
                       style={{
