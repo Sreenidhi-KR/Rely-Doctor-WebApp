@@ -3,9 +3,8 @@ import AuthService from "../services/auth.service";
 import ListGroup from "react-bootstrap/ListGroup";
 import Prescription from "./prescription.component";
 
-function PatientDocuments({ doctor }) {
+function PatientDocuments({ doctor, documents, setDocuments }) {
   const [isLoading, setLoading] = useState(true);
-  const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
     var interval;
@@ -86,8 +85,7 @@ function PatientDocuments({ doctor }) {
                 <button
                   class="btn btn-outline-success"
                   style={{ marginTop: "5px" }}
-                  onClick={() =>
-                    AuthService.downloadPatientDocument(document.id)
+                  onClick={() =>{AuthService.downloadPatientDocument(document.id);}
                   }
                 >
                   Download
