@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Pdf from "react-to-pdf";
 import authService from "../services/auth.service";
+import Notification from "./notification-component";
 
 const ref = React.createRef();
 
@@ -12,17 +13,53 @@ const handleUpload = (e) => {
 const PDF = (props) => {
   const [value, setValue] = useState(false);
   const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState(null);
+  const [notify, setNotify] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const notificationHandler = (message, type) => {
+    setNotification(message);
+    setNotificationType(type);
+    setNotify(true);
+
+    setTimeout(() => {
+      setNotificationType(null);
+      setNotification(null);
+      setNotify(false);
+    }, 2500);
+  };
 
   const handlePrescriptionUpload = (file) => {
     console.log("Handle Prescription");
-    const id=JSON.parse(localStorage.getItem("doctor")).id;
-    authService.uploadPrescription(id,file);
+    const id = JSON.parse(localStorage.getItem("doctor")).id;
+    authService.uploadPrescription(id, file).then(
+      () => {
+        notificationHandler(`Uploaded Prescription!`, "success");
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setMessage(resMessage);
+        this.notificationHandler(`Error while uploading prescription`, "error");
+      }
+    );
   };
 
   console.log(props.formFields);
   console.log(props.doctor);
   return (
     <>
+      <Notification
+        notify={notify}
+        notification={notification}
+        type={notificationType}
+      />
       <section
         ref={ref}
         style={{
@@ -47,7 +84,11 @@ const PDF = (props) => {
                   <div class="col">
                     <div class="form-outline">
                       <label class="form-label" for="form6Example1">
-                      <img src={require('./../img/HadLOGO.jpeg')} alt="Mountain" style={{width:"144px",height:"54px"}}></img>
+                        <img
+                          src={require("./../img/HadLOGO.jpeg")}
+                          alt="Mountain"
+                          style={{ width: "144px", height: "54px" }}
+                        ></img>
                       </label>
                     </div>
                   </div>
@@ -101,8 +142,7 @@ const PDF = (props) => {
                             display: "inline-flex",
                             marginLeft: "125px",
                           }}
-                        >
-                        </label>
+                        ></label>
                       </div>
                     </div>
                   </div>
@@ -241,16 +281,16 @@ const PDF = (props) => {
                   </div>
                   <hr class="my-4" />
                   <label class="form-label" for="formCardNumber">
-                      Follow Up Date
-                    </label>
-                    <p>{props.followUpDate}</p>
+                    Follow Up Date
+                  </label>
+                  <p>{props.followUpDate}</p>
                 </form>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <div style={{display:"inline-flex"}}>
+      <div style={{ display: "inline-flex" }}>
         <Pdf targetRef={ref} filename="prescription.pdf">
           {({ toPdf }) => (
             <button
@@ -258,8 +298,8 @@ const PDF = (props) => {
                 marginLeft: "150px",
                 width: "200px",
                 marginBottom: "20px",
-                marginTop:"0px",
-                height:"100px"
+                marginTop: "0px",
+                height: "100px",
               }}
               class="btn btn-outline-primary btn-lg btn-block"
               type="submit"
@@ -272,29 +312,38 @@ const PDF = (props) => {
             </button>
           )}
         </Pdf>
-        {show ?(
-          <div style={{display:"inline-flex"}}>
-        <button
-          disabled={!value}
-          style={{ marginLeft: "300px", width: "200px", height:"100px", marginBottom: "20px" }}
-          class="btn btn-outline-success btn-lg btn-block"
-          type="submit"
-          onClick={() => {
-            handlePrescriptionUpload(file);
-          }}
-        >
-          Upload Prescription
-        </button>
-        <input
-          style={{ marginLeft: "10px", marginTop:"36px" }}
-          className="add-form-input"
-          type="file"
-          placeholder="Photo URL"
-          onChange={handleUpload}
-          onClick = {() => {setValue(true);}}
-        /> 
-        </div>) : <div></div>
-        }
+        {show ? (
+          <div style={{ display: "inline-flex" }}>
+            <button
+              disabled={!value}
+              style={{
+                marginLeft: "300px",
+                width: "200px",
+                height: "100px",
+                marginBottom: "20px",
+              }}
+              class="btn btn-outline-success btn-lg btn-block"
+              type="submit"
+              onClick={() => {
+                handlePrescriptionUpload(file);
+              }}
+            >
+              Upload Prescription
+            </button>
+            <input
+              style={{ marginLeft: "10px", marginTop: "36px" }}
+              className="add-form-input"
+              type="file"
+              placeholder="Photo URL"
+              onChange={handleUpload}
+              onClick={() => {
+                setValue(true);
+              }}
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </>
   );

@@ -75,7 +75,6 @@ function VideoCall() {
   };
 
   const notificationHandler = (message, type) => {
-    console.log("noassdhbsadsd")
     setNotification(message)
     setNotificationType(type)
     setNotify(true)
