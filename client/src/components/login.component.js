@@ -63,7 +63,7 @@ class Login extends Component {
     return (
       <div className="Auth-form-container">
       <form className="Auth-form">
-        <div
+        {this.state.loading ? <div class="loader" style={{marginLeft:"45%", marginTop:"10%"}}></div>:<div
           className="Auth-form-content"
           style={{ color: "darkblue", paddingLeft: "50px" }}
         >
@@ -110,7 +110,7 @@ class Login extends Component {
               SUBMIT
             </button>
           </div>
-        </div>
+        </div>}
       </form>
     </div>
 
