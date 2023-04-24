@@ -12,7 +12,7 @@ import authService from "../services/auth.service";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
-const urlBase = "https://ad0f-119-161-98-68.ngrok-free.app/api/v1";
+const urlBase = "https://localhost:8080/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -23,6 +23,7 @@ function VideoCall() {
   const [isQueueLimit, setQueueLimit] = useState(false);
   const [isQSet, setQ] = useState(false);
   const [open, setOpen] = useState(false);
+  const [documents, setDocuments] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("doctor"));
   console.log(user.id);
@@ -53,6 +54,7 @@ function VideoCall() {
     rtcProps["token"] = tokenA;
     rtcProps["channel"] = channelName;
   });
+
   const getDoctor = (setDoctor) => {
     axios
       .get(`${urlBase}/doctor/getDoctorById/${user.id}`, config)
@@ -82,7 +84,6 @@ function VideoCall() {
     if (result) {
       console.log("some action...");
     }
-
     setOpen(false);
   };
 
@@ -104,12 +105,10 @@ function VideoCall() {
   const rejectedPatient = async (event) => {
     setOpen(false);
     authService.acceptPatient(false);
-    alert("Leave the call");
     callbacks.EndCall();
   };
 
   const leftPatient = () => {
-    console.log("Left Patient");
     authService.acceptPatient(false);
     setOpen(true);
   };
@@ -152,6 +151,7 @@ function VideoCall() {
 
   window.addEventListener("beforeunload", (ev) => {
     ev.preventDefault();
+    setDocuments([]);
     doctor.online_status = false;
     updateDoctor(setDoctor);
     authService.removePatients(doctor.id);
@@ -203,7 +203,7 @@ function VideoCall() {
             </div>
           </Col>
           <Col style={{ marginLeft: "0px" }}>
-            <PatientDocuments doctor={doctor}></PatientDocuments>
+            <PatientDocuments doctor={doctor} documents={documents} setDocuments={setDocuments}></PatientDocuments>
           </Col>
         </Row>
         <div className={open ? "confirm show" : "confirm"}>
@@ -211,9 +211,11 @@ function VideoCall() {
             <h4 style={{ color: "orange",fontSize:"21px" }}>CONFIRM</h4>
             <div>
               <h2
-                style={{ marginTop: "35px", fontSize: "21px", fontWeight:"bold", color: "#5e17eb", textAlign:"center" }}
+                style={{ marginTop: "25px", fontSize: "21px", fontWeight:"bold", color: "#5e17eb", textAlign:"center" }}
               >
-                Accept Patient or Quit Consultation ?
+                Accept Next Patient or Quit Consultation ? 
+                <br></br>
+                <small style={{color:"red"}}>(Quitting will clear the remaining queue)</small>
               </h2>
             </div>
           </div>

@@ -66,7 +66,7 @@ return(
 <div class="column" style={{display:"inline-grid"}}>
 <div class="tile job">
 <div class="header">
-{isLoading ? <div class="count">0</div> : <div class="count">{consultations?.length}</div>}
+{isLoading ? <div class="count"><div class="loader" style={{marginLeft:"70px"}}></div></div> : <div class="count">{consultations.length}</div>}
 </div>
 <div class="body">
 <div class="title">Consultations</div>
@@ -75,7 +75,7 @@ return(
 <div className="row">
 <div class="tile job" style={{marginLeft:"70px"}}>
 <div class="header">
-<div class="count">4.5<FontAwesomeIcon icon={faStar} style={{color: "#f9b41f", marginLeft:"3px"}} /></div>
+{isLoading ? <div class="loader" style={{marginLeft:"60px", marginTop:"30px"}}></div>:<div class="count">{doctor.rating}<FontAwesomeIcon icon={faStar} style={{color: "#f9b41f", marginLeft:"3px"}} /></div>}
 </div>
 <div class="body">
 <div class="title">Rating</div>
@@ -93,7 +93,7 @@ Previous Consultations
 <div class="row">
 <div>
 <ul class="list-group">
-{isLoading ? <div>Loading...</div> : consultations?.map((consultation) => (
+{isLoading ? <div class="loader" style={{marginLeft:"45%", marginTop:"10%"}}></div> : consultations?.map((consultation) => (
 <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
 <div class="flex-column">
 {consultation.patientName}
@@ -115,7 +115,7 @@ Previous Consultations
 </div>
 <div className="row" style={{marginTop:"10px"}}>
 <div>
-<div id="chartContainer" style={{height:"60%", width:"100%"}}></div>
+<div id="chartContainer" style={{height:"60%", width:"100%"}}><div class="loader" style={{marginLeft:"45%", marginTop:"10%"}}></div></div>
 </div> 
 </div>
 </div>
