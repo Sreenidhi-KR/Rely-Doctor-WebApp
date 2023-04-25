@@ -13,11 +13,42 @@ const handleUpload = (e) => {
 const PDF = (props) => {
   const [value, setValue] = useState(false);
   const [show, setShow] = useState(false);
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState(null);
+  const [notify, setNotify] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const notificationHandler = (message, type) => {
+    setNotification(message);
+    setNotificationType(type);
+    setNotify(true);
+
+    setTimeout(() => {
+      setNotificationType(null);
+      setNotification(null);
+      setNotify(false);
+    }, 2500);
+  };
 
   const handlePrescriptionUpload = (file) => {
     console.log("Handle Prescription");
     const id = JSON.parse(localStorage.getItem("doctor")).id;
-    authService.uploadPrescription(id, file);
+    authService.uploadPrescription(id, file).then(
+      () => {
+        notificationHandler(`Uploaded Prescription!`, "success");
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+
+        setMessage(resMessage);
+        this.notificationHandler(`Error while uploading prescription`, "error");
+      }
+    );
   };
 
   console.log(props.formFields);
@@ -294,6 +325,7 @@ const PDF = (props) => {
             >
               Upload Prescription
             </button>
+            <Notification notify={notify} notification={notification} type={notificationType} />
             <input
               style={{ marginLeft: "10px", marginTop: "36px" }}
               className="add-form-input"
@@ -305,6 +337,7 @@ const PDF = (props) => {
               }}
             />
           </div>
+          
         ) : (
           <div></div>
         )}

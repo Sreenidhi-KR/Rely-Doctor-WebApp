@@ -60,9 +60,11 @@ function Prescription(doctor) {
   };
 
   const handleClose = () => {
-    setShow(false);
-    setDisplay("show")
-    setPostSubmitted(false);
+    setTimeout(function() { //Start the timer
+      setShow(false);
+      setDisplay("show")
+      setPostSubmitted(false);
+  }.bind(this), 2000)
   }
 
   return (
