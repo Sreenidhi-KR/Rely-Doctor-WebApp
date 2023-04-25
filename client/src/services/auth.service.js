@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "https://localhost:8080/api";
+const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
 console.log(urlBase)
 var config = null;
@@ -49,7 +49,6 @@ class AuthService {
           localStorage.setItem("doctor", JSON.stringify(response.data));
         }
         return response.data;
-
       });
 
   }
@@ -95,6 +94,19 @@ class AuthService {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     axios
       .get(`${urlBase}/v1/doctor/getPhotoById/${id}`, configPhoto)
+      .then((json) => {
+        setImg(json.data);
+        console.log(json.data);
+        return json.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  getUserPhoto = (setImg, id) => {
+    axios
+      .get(`${urlBase}/v1/user/downloadImage/${id}`, configPhoto)
       .then((json) => {
         setImg(json.data);
         console.log(json.data);
@@ -218,7 +230,7 @@ class AuthService {
     console.log(config)
     let l = await axios
     .post(`${urlBase}/v1/doctor/setQueueLimit/${doctorId}/${limit}`, {},config);
-    console.log(l)
+    console.log("QUEUE LIMIT",l)
   }
   
   setFollowDate = async(followUpDate) => {

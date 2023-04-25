@@ -9,6 +9,7 @@ function DoctorQueue() {
   const [patients, setPatients] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [isDetails, setDetails] = useState(false);
+  const [img, setImg] = useState("");
   var interval;
 
   const handleRemove = (patientId) => {
@@ -16,12 +17,15 @@ function DoctorQueue() {
     AuthService.removePatientFromQueue(patientId);
   };
 
+  const getPhoto = (patientId) => {
+    AuthService.getUserPhoto(setImg, patientId);
+  }
+
   useEffect(() => {
     setLoading(true);
     try {
       AuthService.getPatientsInQueue(setPatients);
-
-      interval = setInterval(() => {
+            interval = setInterval(() => {
         AuthService.getPatientsInQueue(setPatients);
       }, 10000);
 
@@ -67,6 +71,7 @@ function DoctorQueue() {
         </div>
         {patients.length ? patients.map((patient, i) => {
           if (i === 0) {
+
             return (
               <div
                 class="card text-white mb-3"
@@ -89,7 +94,7 @@ function DoctorQueue() {
                   {patient.fname} {patient.lname}
                   <FontAwesomeIcon
                     icon={faInfoCircle}
-                    onClick={() => setDetails(isDetails ? false : true)}
+                    onClick={() => {setDetails(isDetails ? false : true); getPhoto(patient.id);}}
                     style={{
                       fontSize: "25px",
                       color: "#5e17eb",
@@ -115,7 +120,7 @@ function DoctorQueue() {
                       Patient Details
                     </h5>
                     <div style={{alignContent:"center"}}>
-                    <img style={{width:"120px", height:"120px", marginTop:"10px", marginLeft:"65px", marginBottom:"10px"}} class="rounded-circle shadow-4-strong" alt="avatar2" src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp" />
+                    {img ? <img alt="" src={`data:image/png;base64,${img}`} style={{width:"120px", height:"120px", marginTop:"10px", marginLeft:"65px", marginBottom:"10px"}} class="rounded-circle shadow-4-strong"></img> : <img src={require("./../img/user.png")} style={{width:"120px", height:"120px", marginTop:"10px", marginLeft:"65px", marginBottom:"10px"}} class="rounded-circle shadow-4-strong"></img>}
                     </div>
                     <p
                       class="card-text"

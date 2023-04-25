@@ -67,7 +67,7 @@ function Prescription(doctor) {
 
   return (
     <>
-      <button class="btn btn-outline-warning" onClick={handleShow} style={{fontSize:"20px", fontWeight:"bold"}}>
+      <button class="btn btn-outline-info" onClick={handleShow} style={{fontSize:"20px", fontWeight:"bold"}}>
         Generate Prescription
       </button>
 
