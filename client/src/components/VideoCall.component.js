@@ -14,7 +14,7 @@ import Notification from "./notification-component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
-const urlBase = "https://localhost:8080/api/v1";
+const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -111,6 +111,8 @@ function VideoCall() {
     setQ(true);
     authService.setQueueLimit(doctor.id, isQueueLimit).then(()=>{
       notificationHandler(`Queue Limit is set to value ${isQueueLimit}!`, 'success')
+      getDoctor(setDoctor);
+      console.log(doctor)
     },(error) => {
       const resMessage =
         (error.response &&
@@ -155,8 +157,6 @@ function VideoCall() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // alert("let patient In");
-    // authService.acceptPatient()
     channelId = channelName.toString();
     const tok = await RtcTokenBuilder.buildTokenWithUid(
       appId,
@@ -176,6 +176,7 @@ function VideoCall() {
     );
     setDoctor(doctor);
     updateDoctor(setDoctor);
+    console.log("XXXXXXX", doctor);
     setVideoCall(true);
     acceptPatient();
   };
