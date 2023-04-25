@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api";
-const user = JSON.parse(localStorage.getItem("doctor"));
-console.log(urlBase);
+const urlBase = "https://localhost:8080/api";
+var user = JSON.parse(localStorage.getItem("doctor"));
+console.log(urlBase)
 var config = null;
 
 if (user && user.accessToken) {
@@ -63,8 +63,68 @@ class AuthService {
     return JSON.parse(localStorage.getItem("doctor"));
   }
 
+  
+  refreshTokenGeneration(){
+      const parsedJson = JSON.parse(atob(user.accessToken.split(".")[1]));
+      let date=new Date();
+      let jwtDate = new Date(parsedJson.exp*1000);
+      let difference= date.getTime()-jwtDate.getTime();
+      if(difference>0){
+        console.log("rrrrrrrrrreeeeeeeeeeffrere",user.refreshToken)
+        axios.post(`${urlBase}/auth/doctor/refreshtoken`,
+          {refreshToken: user.refreshToken})
+        .then((response) => {
+          if (response.data.accessToken) {
+            var doc = localStorage.getItem('doctor');
+            console.log("1",JSON.parse(doc))
+            var parsedDoc = JSON.parse(doc);
+            parsedDoc.accessToken = response.data.accessToken;
+            const newDoc = JSON.stringify(parsedDoc);
+            localStorage.setItem('doctor', newDoc);
+            user = JSON.parse(localStorage.getItem("doctor"));
+            if (user && user.accessToken) {
+              config = {
+                headers: {
+                  "ngrok-skip-browser-warning": "true",
+                  Authorization: "Bearer " + user.accessToken,
+                },
+              };
+            }
+
+            if (user && user.accessToken) {
+              configPhoto = {
+                headers: {
+                  "ngrok-skip-browser-warning": "true",
+                  "Content-Type": "multipart/form-data",
+                  Authorization: "Bearer " + user.accessToken,
+                },
+              };
+            }
+
+            if (user && user.accessToken) {
+              configuration = {
+                headers: {
+                  "ngrok-skip-browser-warning": "true",
+                  Authorization: "Bearer " + user.accessToken,
+                  Accept: "application/json",
+                },
+              };
+            }
+            console.log("2",parsedDoc)
+            console.log("DONEEEEEE")
+          }
+          return response.data;
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+      }
+  }
+
   getDoctor = (setDoctor) => {
-    const id = JSON.parse(localStorage.getItem("doctor")).id;
+    this.refreshTokenGeneration()
+    setTimeout(() => {
+      const id = JSON.parse(localStorage.getItem("doctor")).id;
     axios
       .get(`${urlBase}/v1/doctor/getDoctorById/${id}`, config)
       .then((json) => {
@@ -75,9 +135,13 @@ class AuthService {
       .catch((error) => {
         console.log(error);
       });
+    }, 1000);
+
   };
 
   getPreviousConsultations = async () => {
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     try {
       const json = await axios.get(
@@ -92,7 +156,10 @@ class AuthService {
     }
   };
 
-  getPhoto = (setImg) => {
+  getPhoto = async(setImg) => {
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     axios
       .get(`${urlBase}/v1/doctor/getPhotoById/${id}`, configPhoto)
@@ -106,7 +173,10 @@ class AuthService {
       });
   };
 
-  getUserPhoto = (setImg, id) => {
+  getUserPhoto = async(setImg, id) => {
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     axios
       .get(`${urlBase}/v1/user/downloadImage/${id}`, configPhoto)
       .then((json) => {
@@ -119,7 +189,10 @@ class AuthService {
       });
   };
 
-  getPatientsInQueue = (setPatients) => {
+  getPatientsInQueue = async(setPatients) => {    
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     axios
       .get(`${urlBase}/v1/dqueue/getPatients/${id}`, config)
@@ -133,6 +206,9 @@ class AuthService {
   };
 
   getPatientDocuments = async (setDocuments) => {
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     let cid = await this.getConsultationId(id);
     console.log(cid);
@@ -149,7 +225,10 @@ class AuthService {
       });
   };
 
-  downloadPatientDocument = (docId, docName) => {
+  downloadPatientDocument = async(docId, docName) => {
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     console.log("Downloding document");
     axios
       .get(`${urlBase}/v1/document/download/${docId}`, configuration)
@@ -169,6 +248,9 @@ class AuthService {
 
   getConsultationGraphData = async () => {
     try {
+      this.refreshTokenGeneration()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       const id = JSON.parse(localStorage.getItem("doctor")).id;
       const json = await axios.get(
         `${urlBase}/v1/consultation/getPrevConsultationsStats/${id}`,
@@ -184,6 +266,9 @@ class AuthService {
   getConsultationId = async (doctorId) => {
     console.log("docid", doctorId);
     try {
+      this.refreshTokenGeneration()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       let qid = await axios.get(
         `${urlBase}/v1/dqueue/getDqueue/${doctorId}`,
         config
@@ -205,6 +290,9 @@ class AuthService {
   uploadPrescription = async (doctorId, prescription) => {
     console.log("docid", doctorId);
     try {
+      this.refreshTokenGeneration()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       let qid = await axios.get(
         `${urlBase}/v1/dqueue/getDqueue/${doctorId}`,
         config
@@ -240,6 +328,9 @@ class AuthService {
   };
 
   setQueueLimit = async(doctorId, limit) => {
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     console.log(config)
     let l = await axios
     .post(`${urlBase}/v1/doctor/setQueueLimit/${doctorId}/${limit}`, {},config);
@@ -248,6 +339,9 @@ class AuthService {
   
   setQueueLimit = async (doctorId, limit) => {
     try {
+      this.refreshTokenGeneration()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       console.log(config);
       let l = await axios.post(
         `${urlBase}/v1/doctor/setQueueLimit/${doctorId}/${limit}`,
@@ -261,6 +355,9 @@ class AuthService {
   };
 
   setFollowDate = async (followUpDate) => {
+    this.refreshTokenGeneration()
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     const id = JSON.parse(localStorage.getItem("doctor")).id;
 
     try {
@@ -289,6 +386,9 @@ class AuthService {
 
   removePatients = async (doctorid) => {
     try {
+      this.refreshTokenGeneration()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       let remove = await axios.get(
         `${urlBase}/v1/dqueue/removeAllPatient/${doctorid}`,
         config
@@ -301,6 +401,9 @@ class AuthService {
 
   acceptPatient = async (bool) => {
     try {
+      this.refreshTokenGeneration()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
 
       let qid = await axios.get(
@@ -321,6 +424,10 @@ class AuthService {
 
   removePatientFromQueue = async (patientId) => {
     try {
+      this.refreshTokenGeneration()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      
       const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
       console.log("ajsdbajsdbjda", doctorId);
       console.log("ajsdbajsdbjda", patientId);
