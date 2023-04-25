@@ -13,6 +13,7 @@ console.log(doctor)
 const [consultations,setConsultations] = useState([]);
 const [isLoading, setLoading] = useState(true);
 const [dataPoints, setDataPoints] = useState([]);
+const [doctors, setDoctors] = useState([])
 var dataPnts =[];
 // var consultations,dataPoints;
 const options = { year: "numeric", month: "long", day: "numeric"}
@@ -49,6 +50,7 @@ useEffect(async ()=>{
 const fetchData= async ()=>{
 setConsultations( await AuthService.getPreviousConsultations());
 const res = await AuthService.getConsultationGraphData();
+await AuthService.getDoctor(setDoctors);
 setDataPoints(res);
 updateData(res)
 setLoading(false);
@@ -75,7 +77,7 @@ return(
 <div className="row">
 <div class="tile job" style={{marginLeft:"70px"}}>
 <div class="header">
-{isLoading ? <div class="loader" style={{marginLeft:"60px", marginTop:"30px"}}></div>:<div class="count">{doctor.rating}<FontAwesomeIcon icon={faStar} style={{color: "#f9b41f", marginLeft:"3px"}} /></div>}
+{isLoading ? <div class="loader" style={{marginLeft:"60px", marginTop:"30px"}}></div>:<div class="count">{doctors.rating}<FontAwesomeIcon icon={faStar} style={{color: "#f9b41f", marginLeft:"3px"}} /></div>}
 </div>
 <div class="body">
 <div class="title">Rating</div>
