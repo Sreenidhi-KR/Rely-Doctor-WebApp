@@ -2,16 +2,16 @@ import axios from "axios";
 
 const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api";
 const user = JSON.parse(localStorage.getItem("doctor"));
-console.log(urlBase)
+console.log(urlBase);
 var config = null;
 
 if (user && user.accessToken) {
-config = {
-  headers: {
-    "ngrok-skip-browser-warning": "true",
-    Authorization: "Bearer " + user.accessToken,
-  }         
-};
+  config = {
+    headers: {
+      "ngrok-skip-browser-warning": "true",
+      Authorization: "Bearer " + user.accessToken,
+    },
+  };
 }
 
 var configPhoto = null;
@@ -49,8 +49,10 @@ class AuthService {
           localStorage.setItem("doctor", JSON.stringify(response.data));
         }
         return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
   }
 
   logout() {
@@ -75,19 +77,19 @@ class AuthService {
       });
   };
 
-  getPreviousConsultations = async ()  => {
+  getPreviousConsultations = async () => {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
-    try{
-    const json = await axios
-      .get(`${urlBase}/v1/consultation/getPrevConsultationsDoctor/${id}`, config)
-      
-      console.log(json.data)
-      return json.data;
-    }
-    catch(e){
-      console.log(e)
-    }
+    try {
+      const json = await axios.get(
+        `${urlBase}/v1/consultation/getPrevConsultationsDoctor/${id}`,
+        config
+      );
 
+      console.log(json.data);
+      return json.data;
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   getPhoto = (setImg) => {
@@ -117,7 +119,6 @@ class AuthService {
       });
   };
 
-
   getPatientsInQueue = (setPatients) => {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     axios
@@ -131,7 +132,7 @@ class AuthService {
       });
   };
 
-  getPatientDocuments = async ( setDocuments) => {
+  getPatientDocuments = async (setDocuments) => {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
     let cid = await this.getConsultationId(id);
     console.log(cid);
@@ -167,64 +168,76 @@ class AuthService {
   };
 
   getConsultationGraphData = async () => {
-    try{
-    const id = JSON.parse(localStorage.getItem("doctor")).id;
-    const json = await axios
-      .get(`${urlBase}/v1/consultation/getPrevConsultationsStats/${id}`, config)
-      console.log(json.data)
+    try {
+      const id = JSON.parse(localStorage.getItem("doctor")).id;
+      const json = await axios.get(
+        `${urlBase}/v1/consultation/getPrevConsultationsStats/${id}`,
+        config
+      );
+      console.log(json.data);
       return json.data;
+    } catch (e) {
+      console.log(e);
     }
-    catch(e){
-      console.log(e)
+  };
+
+  getConsultationId = async (doctorId) => {
+    console.log("docid", doctorId);
+    try {
+      let qid = await axios.get(
+        `${urlBase}/v1/dqueue/getDqueue/${doctorId}`,
+        config
+      );
+
+      console.log("qid", qid);
+
+      let cid = await axios.get(
+        `${urlBase}/v1/dqueue/getConsultationId/${qid.data}`,
+        config
+      );
+
+      return cid.data;
+    } catch (e) {
+      console.log(e);
     }
-  }
+  };
 
-  getConsultationId = async(doctorId) => {
-    console.log("docid", doctorId)
+  uploadPrescription = async (doctorId, prescription) => {
+    console.log("docid", doctorId);
+    try {
+      let qid = await axios.get(
+        `${urlBase}/v1/dqueue/getDqueue/${doctorId}`,
+        config
+      );
 
-    let qid = await axios
-    .get(`${urlBase}/v1/dqueue/getDqueue/${doctorId}`, config)
+      console.log("qid", qid);
 
-    console.log("qid" , qid)
+      let cid = await axios.get(
+        `${urlBase}/v1/dqueue/getConsultationId/${qid.data}`,
+        config
+      );
 
-    let cid =  await  axios
-    .get(`${urlBase}/v1/dqueue/getConsultationId/${qid.data}`, config);
+      console.log("cid", cid);
 
-    return cid.data;
-  }
+      let pid = await axios.get(
+        `${urlBase}/v1/dqueue/getPatientId/${qid.data}`,
+        config
+      );
 
-   uploadPrescription =  async (doctorId, prescription) =>{
-
-    console.log("docid", doctorId)
-
-    let qid = await axios
-    .get(`${urlBase}/v1/dqueue/getDqueue/${doctorId}`, config)
-
-    console.log("qid" , qid)
-
-    let cid =  await  axios
-    .get(`${urlBase}/v1/dqueue/getConsultationId/${qid.data}`, config);
-
-    console.log("cid" , cid)
-
-    let pid = await axios
-      .get(`${urlBase}/v1/dqueue/getPatientId/${qid.data}`, config)
-
-
-      console.log("pid" , pid)
-
+      console.log("pid", pid);
 
       let formData = new FormData();
       formData.append("file", prescription);
-      
-      await axios
-        .post(
-          `${urlBase}/v1/document/uploadPrescription/${pid.data}/${cid.data}`,
-          formData,
-          configPhoto
-        )
 
-  }
+      await axios.post(
+        `${urlBase}/v1/document/uploadPrescription/${pid.data}/${cid.data}`,
+        formData,
+        configPhoto
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   setQueueLimit = async(doctorId, limit) => {
     console.log(config)
@@ -233,54 +246,94 @@ class AuthService {
     console.log("QUEUE LIMIT",l)
   }
   
-  setFollowDate = async(followUpDate) => {
+  setQueueLimit = async (doctorId, limit) => {
+    try {
+      console.log(config);
+      let l = await axios.post(
+        `${urlBase}/v1/doctor/setQueueLimit/${doctorId}/${limit}`,
+        {},
+        config
+      );
+      console.log(l);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  setFollowDate = async (followUpDate) => {
     const id = JSON.parse(localStorage.getItem("doctor")).id;
 
-    let qid = await axios
-    .get(`${urlBase}/v1/dqueue/getDqueue/${id}`, config)
+    try {
+      let qid = await axios.get(`${urlBase}/v1/dqueue/getDqueue/${id}`, config);
 
-    console.log("qid" , qid)
+      console.log("qid", qid);
 
-    let cid =  await axios
-    .get(`${urlBase}/v1/dqueue/getConsultationId/${qid.data}`, config);
+      let cid = await axios.get(
+        `${urlBase}/v1/dqueue/getConsultationId/${qid.data}`,
+        config
+      );
 
-    console.log("cid", cid)
+      console.log("cid", cid);
 
-    let followUp = await axios
-    .post(`${urlBase}/v1/consultation/setFollowUp/${cid.data}/${followUpDate}`, {}, config);
+      let followUp = await axios.post(
+        `${urlBase}/v1/consultation/setFollowUp/${cid.data}/${followUpDate}`,
+        {},
+        config
+      );
 
-    console.log(followUp);
+      console.log(followUp);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  }
+  removePatients = async (doctorid) => {
+    try {
+      let remove = await axios.get(
+        `${urlBase}/v1/dqueue/removeAllPatient/${doctorid}`,
+        config
+      );
+      console.log(remove);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  removePatients = async(doctorid) => {
-    let remove = await axios
-    .get(`${urlBase}/v1/dqueue/removeAllPatient/${doctorid}`, config)
-    console.log(remove);
-  }
+  acceptPatient = async (bool) => {
+    try {
+      const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
 
-  acceptPatient = async(bool) => {
-    const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
+      let qid = await axios.get(
+        `${urlBase}/v1/dqueue/getDqueue/${doctorId}`,
+        config
+      );
 
-    let qid = await axios
-    .get(`${urlBase}/v1/dqueue/getDqueue/${doctorId}`, config)
+      let toggle = await axios.get(
+        `${urlBase}/v1/dqueue/toggleAcceptPatient/${qid.data}/${bool}`,
+        config
+      );
 
-    let toggle = await axios
-    .get(`${urlBase}/v1/dqueue/toggleAcceptPatient/${qid.data}/${bool}`,config)
+      console.log("togggggggling", toggle);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-    console.log("togggggggling",toggle);
-  }
+  removePatientFromQueue = async (patientId) => {
+    try {
+      const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
+      console.log("ajsdbajsdbjda", doctorId);
+      console.log("ajsdbajsdbjda", patientId);
+      let removePatient = await axios.get(
+        `${urlBase}/v1/dqueue/removePatient/${doctorId}/${patientId}`,
+        config
+      );
 
-  removePatientFromQueue = async(patientId) => {
-    const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
-    console.log("ajsdbajsdbjda",doctorId);
-    console.log("ajsdbajsdbjda",patientId);
-    let removePatient = await axios
-    .get(`${urlBase}/v1/dqueue/removePatient/${doctorId}/${patientId}`,config)
-
-    console.log("ajsdbajsdbjda",removePatient);
-  }
-
+      console.log("ajsdbajsdbjda", removePatient);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }
 
 export default new AuthService();
