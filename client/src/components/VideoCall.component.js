@@ -14,7 +14,7 @@ import Notification from "./notification-component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
-const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api/v1";
+const urlBase = "https://localhost:8080/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
