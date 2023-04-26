@@ -1,9 +1,9 @@
 import React, { Component, useEffect, useLayoutEffect, useState } from "react";
-import CanvasJSReact from '../canvasjs/canvasjs.react';
-import '../canvasjs/canvasjs.min.js'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
-import '../../src/index.css'
+import CanvasJSReact from "../canvasjs/canvasjs.react";
+import "../canvasjs/canvasjs.min.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import "../../src/index.css";
 import AuthService from "../services/auth.service";
 import Notification from "./notification-component";
 var CanvasJS = CanvasJSReact.CanvasJS;
