@@ -55,9 +55,20 @@ class AuthService {
       });
   }
 
-  logout() {
+  logout = async()=>{
+    try{
+      const id = JSON.parse(localStorage.getItem("doctor")).id;
+      let l = await axios.post(
+        `${urlBase}/auth/doctor/signout/${id}`,{},
+        config
+      );
+      console.log("LOGOUT", l)
+
+    } catch (e) {
+      console.log(e);
+    }
     localStorage.removeItem("doctor");
-  }
+    }
 
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("doctor"));
