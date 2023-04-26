@@ -55,39 +55,39 @@ class AuthService {
       });
   }
 
-  logout = async () => {
-    try {
+  logout = async()=>{
+    try{
       const id = JSON.parse(localStorage.getItem("doctor")).id;
       let l = await axios.post(
-        `${urlBase}/auth/doctor/signout/${id}`, {},
+        `${urlBase}/auth/doctor/signout/${id}`,{},
         config
       );
-      console.log("LOGOUT", l)
+      console.log("LOGOUT", l);
 
     } catch (e) {
       console.log(e);
     }
     localStorage.removeItem("doctor");
-  }
+    }
 
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("doctor"));
   }
 
-
-  refreshTokenGeneration() {
-    const parsedJson = JSON.parse(atob(user.accessToken.split(".")[1]));
-    let date = new Date();
-    let jwtDate = new Date(parsedJson.exp * 1000);
-    let difference = date.getTime() - jwtDate.getTime();
-    if (difference > 0) {
-      console.log("rrrrrrrrrreeeeeeeeeeffrere", user.refreshToken)
-      axios.post(`${urlBase}/auth/doctor/refreshtoken`,
-        { refreshToken: user.refreshToken })
+  
+  refreshTokenGeneration(){
+      const parsedJson = JSON.parse(atob(user.accessToken.split(".")[1]));
+      let date=new Date();
+      let jwtDate = new Date(parsedJson.exp*1000);
+      let difference= date.getTime()-jwtDate.getTime();
+      if(difference>0){
+        console.log("rrrrrrrrrreeeeeeeeeeffrere",user.refreshToken)
+        axios.post(`${urlBase}/auth/doctor/refreshtoken`,
+          {refreshToken: user.refreshToken})
         .then((response) => {
           if (response.data.accessToken) {
             var doc = localStorage.getItem('doctor');
-            console.log("1", JSON.parse(doc))
+            console.log("1",JSON.parse(doc))
             var parsedDoc = JSON.parse(doc);
             parsedDoc.accessToken = response.data.accessToken;
             const newDoc = JSON.stringify(parsedDoc);
@@ -121,31 +121,31 @@ class AuthService {
                 },
               };
             }
-            console.log("2", parsedDoc)
+            console.log("2",parsedDoc)
             console.log("DONEEEEEE")
           }
           return response.data;
         })
         .catch((error) => {
-          console.log(error)
+            console.log(error)
         });
-    }
+      }
   }
 
   getDoctor = (setDoctor) => {
     this.refreshTokenGeneration()
     setTimeout(() => {
       const id = JSON.parse(localStorage.getItem("doctor")).id;
-      axios
-        .get(`${urlBase}/v1/doctor/getDoctorById/${id}`, config)
-        .then((json) => {
-          setDoctor(json.data);
-          console.log(json.data);
-          return json.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    axios
+      .get(`${urlBase}/v1/doctor/getDoctorById/${id}`, config)
+      .then((json) => {
+        setDoctor(json.data);
+        console.log(json.data);
+        return json.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     }, 1000);
 
   };
@@ -160,14 +160,14 @@ class AuthService {
         config
       );
 
-      console.log(json.data);
+      console.log("***",json.data);
       return json.data;
     } catch (e) {
       console.log(e);
     }
   };
 
-  getPhoto = async (setImg) => {
+  getPhoto = async(setImg) => {
     this.refreshTokenGeneration()
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -184,7 +184,7 @@ class AuthService {
       });
   };
 
-  getUserPhoto = async (setImg, id) => {
+  getUserPhoto = async(setImg, id) => {
     this.refreshTokenGeneration()
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -200,7 +200,7 @@ class AuthService {
       });
   };
 
-  getPatientsInQueue = async (setPatients) => {
+  getPatientsInQueue = async(setPatients) => {    
     this.refreshTokenGeneration()
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -236,7 +236,7 @@ class AuthService {
       });
   };
 
-  downloadPatientDocument = async (docId, docName) => {
+  downloadPatientDocument = async(docId, docName) => {
     this.refreshTokenGeneration()
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -338,16 +338,16 @@ class AuthService {
     }
   };
 
-  setQueueLimit = async (doctorId, limit) => {
+  setQueueLimit = async(doctorId, limit) => {
     this.refreshTokenGeneration()
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     console.log(config)
     let l = await axios
-      .post(`${urlBase}/v1/doctor/setQueueLimit/${doctorId}/${limit}`, {}, config);
-    console.log("QUEUE LIMIT", l)
+    .post(`${urlBase}/v1/doctor/setQueueLimit/${doctorId}/${limit}`, {},config);
+    console.log("QUEUE LIMIT",l)
   }
-
+  
   setQueueLimit = async (doctorId, limit) => {
     try {
       this.refreshTokenGeneration()
@@ -438,7 +438,7 @@ class AuthService {
       this.refreshTokenGeneration()
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-
+      
       const doctorId = JSON.parse(localStorage.getItem("doctor")).id;
       console.log("ajsdbajsdbjda", doctorId);
       console.log("ajsdbajsdbjda", patientId);
