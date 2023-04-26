@@ -3,7 +3,7 @@ import AuthService from "../services/auth.service";
 import ListGroup from "react-bootstrap/ListGroup";
 import Prescription from "./prescription.component";
 
-function PatientDocuments({ doctor}) {
+function PatientDocuments({ doctor }) {
   const [isLoading, setLoading] = useState(true);
   const [documents, setDocuments] = useState([]);
 
@@ -86,13 +86,13 @@ function PatientDocuments({ doctor}) {
                 <button
                   class="btn btn-outline-success"
                   style={{ marginTop: "5px" }}
-                  onClick={() =>{AuthService.downloadPatientDocument(document.id);}
+                  onClick={() => { AuthService.downloadPatientDocument(document.id); }
                   }
                 >
                   Download
                 </button>
               </div>
-            )) : <div><p style={{marginLeft:"17%",marginTop:"25%", fontWeight:"bold"}}>- No Available Documents -</p></div>}
+            )) : <div><p style={{ marginLeft: "17%", marginTop: "25%", fontWeight: "bold" }}>- No Available Documents -</p></div>}
         </div>
       </div>
     </div>

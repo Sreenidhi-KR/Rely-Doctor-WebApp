@@ -62,7 +62,7 @@ class AuthService {
         `${urlBase}/auth/doctor/signout/${id}`,{},
         config
       );
-      console.log("LOGOUT", l)
+      console.log("LOGOUT", l);
 
     } catch (e) {
       console.log(e);
@@ -160,7 +160,7 @@ class AuthService {
         config
       );
 
-      console.log(json.data);
+      console.log("***",json.data);
       return json.data;
     } catch (e) {
       console.log(e);
