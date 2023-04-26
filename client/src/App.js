@@ -53,27 +53,27 @@ class App extends Component {
     const { currentUser } = this.state;
 
     return (
-      <div style={{width:"100%"}}>
-        <Navbar collapseOnSelect expand="lg" variant="dark" style={{backgroundColor: "#5e17eb"}}>
+      <div style={{ width: "100%" }}>
+        <Navbar collapseOnSelect expand="lg" variant="dark" style={{ backgroundColor: "#5e17eb" }}>
           <Container>
-            <Navbar.Brand href={"/home"}><img src="https://drive.google.com/uc?export=view&id=1greq1-QNqtuKNhrDraFNhltJIVvPt2KE" alt="Mountain" style={{width:"144px",height:"54px"}}></img></Navbar.Brand>
+            <Navbar.Brand href={"/home"}><img src="https://drive.google.com/uc?export=view&id=1greq1-QNqtuKNhrDraFNhltJIVvPt2KE" alt="Mountain" style={{ width: "144px", height: "54px" }}></img></Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
-                </Nav>
-                <Nav>
+              </Nav>
+              <Nav>
                 {currentUser ? (
                   <Fragment>
-                    <Nav.Link href={"/dashboard"} style={{color:"white",fontWeight:"bold", fontSize:"17px"}}>Dashboard</Nav.Link>
-                    <Nav.Link href={"/profile"} style={{color:"white",fontWeight:"bold", fontSize:"17px"}}>Profile</Nav.Link>
-                    <Nav.Link href={"/video"} style={{color:"white", fontWeight:"bold", fontSize:"17px"}}>Consultation</Nav.Link>
-                    <Nav.Link href="/login" onClick={this.logOut} style={{color:"white", fontWeight:"bold", fontSize:"17px"}}>
+                    <Nav.Link href={"/dashboard"} style={{ color: "white", fontWeight: "bold", fontSize: "17px" }}>Dashboard</Nav.Link>
+                    <Nav.Link href={"/profile"} style={{ color: "white", fontWeight: "bold", fontSize: "17px" }}>Profile</Nav.Link>
+                    <Nav.Link href={"/video"} style={{ color: "white", fontWeight: "bold", fontSize: "17px" }}>Consultation</Nav.Link>
+                    <Nav.Link href="/login" onClick={this.logOut} style={{ color: "white", fontWeight: "bold", fontSize: "17px" }}>
                       LogOut
                     </Nav.Link>
                   </Fragment>
                 ) : (
                   <Fragment>
-                    <Nav.Link href={"/login"} style={{color:"white", fontSize:"17px", fontWeight:"bold"}}>Login</Nav.Link>
+                    <Nav.Link href={"/login"} style={{ color: "white", fontSize: "17px", fontWeight: "bold" }}>Login</Nav.Link>
                   </Fragment>
                 )}
               </Nav>
@@ -83,12 +83,12 @@ class App extends Component {
 
         <div>
           <Routes>
-            <Route path="/" element={<Home/>} />
-            <Route path="/home" element={<Home/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/dashboard" element={<PrivateRoute Component={Dashboard}/>} />
-            <Route path="/profile" element={<PrivateRoute Component={Profile}/>} />
-            <Route path="/video/*" element={<PrivateRoute Component={VideoCall}/>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<PrivateRoute Component={Dashboard} />} />
+            <Route path="/profile" element={<PrivateRoute Component={Profile} />} />
+            <Route path="/video/*" element={<PrivateRoute Component={VideoCall} />} />
           </Routes>
         </div>
       </div>

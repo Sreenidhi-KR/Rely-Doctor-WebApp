@@ -5,7 +5,7 @@ import Notification from "./notification-component";
 import { withRouter } from "../common/with-router";
 
 
-class Login extends Component { 
+class Login extends Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
@@ -17,8 +17,8 @@ class Login extends Component {
       password: "",
       loading: false,
       message: "",
-      notification:"abc",
-      notificationType:"abc",
+      notification: "abc",
+      notificationType: "abc",
       notify: true,
     };
   }
@@ -35,17 +35,17 @@ class Login extends Component {
     });
   }
 
-  notificationHandler (message, type){
+  notificationHandler(message, type) {
     this.setState({
-      notification:message,
-      notificationType:type,
-      notify:true,
+      notification: message,
+      notificationType: type,
+      notify: true,
     });
     setTimeout(() => {
       this.setState({
-        notification:null,
-        notificationType:null,
-        notify:false
+        notification: null,
+        notificationType: null,
+        notify: false
       })
     }, 2500)
   }
@@ -85,58 +85,58 @@ class Login extends Component {
   render() {
     return (
       <div className="Auth-form-container">
-      <Notification notify={this.state.notify} notification={this.state.notification} type={this.state.notificationType} />
-      <form className="Auth-form">
-        {this.state.loading ? <div class="loader" style={{marginLeft:"45%", marginTop:"10%"}}></div>:<div
-          className="Auth-form-content"
-          style={{ color: "darkblue", paddingLeft: "50px" }}
-        >
-          <h3
-            style={{
-              textAlign:"center",
-              color: "#5e17eb",
-              fontWeight: "bolder",
-            }}
+        <Notification notify={this.state.notify} notification={this.state.notification} type={this.state.notificationType} />
+        <form className="Auth-form">
+          {this.state.loading ? <div class="loader" style={{ marginLeft: "45%", marginTop: "10%" }}></div> : <div
+            className="Auth-form-content"
+            style={{ color: "darkblue", paddingLeft: "50px" }}
           >
-            DOCTOR LOGIN
-          </h3>
-          <div className="form-group mt-3" style={{ paddingTop: "30px" }}>
-            <h5>User Name</h5>
-            <input
-              type="text"
-              required
-              className="form-control mt-1"
-              placeholder="Enter name"
-              value={this.state.username}
-              onChange={this.onChangeUsername}
-            />
-          </div>
-          <div className="form-group mt-3">
-            <h5>Password</h5>
-            <input
-              type="password"
-              className="form-control mt-1"
-              placeholder="Enter password"
-              value={this.state.password}
-              onChange={this.onChangePassword}
-            />
-          </div>
-          <div className="d-grid mt-5">
-            <button
+            <h3
               style={{
-                backgroundColor: "#5e17eb",
-                fontWeight: "bold",
+                textAlign: "center",
+                color: "#5e17eb",
+                fontWeight: "bolder",
               }}
-              type="Submit"
-              className="btn btn-primary btn-block"
-              onClick={this.handleLogin}
             >
-              SUBMIT
-            </button>
-          </div>
-        </div>}
-      </form>
-    </div>
+              DOCTOR LOGIN
+            </h3>
+            <div className="form-group mt-3" style={{ paddingTop: "30px" }}>
+              <h5>User Name</h5>
+              <input
+                type="text"
+                required
+                className="form-control mt-1"
+                placeholder="Enter name"
+                value={this.state.username}
+                onChange={this.onChangeUsername}
+              />
+            </div>
+            <div className="form-group mt-3">
+              <h5>Password</h5>
+              <input
+                type="password"
+                className="form-control mt-1"
+                placeholder="Enter password"
+                value={this.state.password}
+                onChange={this.onChangePassword}
+              />
+            </div>
+            <div className="d-grid mt-5">
+              <button
+                style={{
+                  backgroundColor: "#5e17eb",
+                  fontWeight: "bold",
+                }}
+                type="Submit"
+                className="btn btn-primary btn-block"
+                onClick={this.handleLogin}
+              >
+                SUBMIT
+              </button>
+            </div>
+          </div>}
+        </form>
+      </div>
 
     );
   }

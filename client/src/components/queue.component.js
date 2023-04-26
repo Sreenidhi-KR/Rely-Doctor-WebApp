@@ -25,7 +25,7 @@ function DoctorQueue() {
     setLoading(true);
     try {
       AuthService.getPatientsInQueue(setPatients);
-            interval = setInterval(() => {
+      interval = setInterval(() => {
         AuthService.getPatientsInQueue(setPatients);
       }, 10000);
 
@@ -55,7 +55,7 @@ function DoctorQueue() {
           overflowX: "hidden",
         }}
       >
-      <div class="card-header">
+        <div class="card-header">
           <h1
             style={{
               alignSelf: "center",
@@ -94,7 +94,7 @@ function DoctorQueue() {
                   {patient.fname} {patient.lname}
                   <FontAwesomeIcon
                     icon={faInfoCircle}
-                    onClick={() => {setDetails(isDetails ? false : true); getPhoto(patient.id);}}
+                    onClick={() => { setDetails(isDetails ? false : true); getPhoto(patient.id); }}
                     style={{
                       fontSize: "25px",
                       color: "#5e17eb",
@@ -119,8 +119,8 @@ function DoctorQueue() {
                     >
                       Patient Details
                     </h5>
-                    <div style={{alignContent:"center"}}>
-                    {img ? <img alt="" src={`data:image/png;base64,${img}`} style={{width:"120px", height:"120px", marginTop:"10px", marginLeft:"65px", marginBottom:"10px"}} class="rounded-circle shadow-4-strong"></img> : <img src={require("./../img/user.png")} style={{width:"120px", height:"120px", marginTop:"10px", marginLeft:"65px", marginBottom:"10px"}} class="rounded-circle shadow-4-strong"></img>}
+                    <div style={{ alignContent: "center" }}>
+                      {img ? <img alt="" src={`data:image/png;base64,${img}`} style={{ width: "120px", height: "120px", marginTop: "10px", marginLeft: "65px", marginBottom: "10px" }} class="rounded-circle shadow-4-strong"></img> : <img src={require("./../img/user.png")} style={{ width: "120px", height: "120px", marginTop: "10px", marginLeft: "65px", marginBottom: "10px" }} class="rounded-circle shadow-4-strong"></img>}
                     </div>
                     <p
                       class="card-text"
@@ -181,8 +181,8 @@ function DoctorQueue() {
               </div>
             </div>
           );
-        }) : <div><p style={{marginLeft:"31%",marginTop:"25%", fontWeight:"bold"}}>- Queue Is Empty -</p></div> }
-        </div>
+        }) : <div><p style={{ marginLeft: "31%", marginTop: "25%", fontWeight: "bold" }}>- Queue Is Empty -</p></div>}
+      </div>
     </div>
   );
 }
