@@ -57,8 +57,9 @@ class AuthService {
 
   logout = async()=>{
     try{
+      const id = JSON.parse(localStorage.getItem("doctor")).id;
       let l = await axios.post(
-        `${urlBase}/auth/signout`,{},
+        `${urlBase}/auth/doctor/signout/${id}`,{},
         config
       );
       console.log("LOGOUT", l)
