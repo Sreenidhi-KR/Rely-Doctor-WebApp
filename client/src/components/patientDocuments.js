@@ -1,29 +1,30 @@
 import { useEffect, useState } from "react";
 import AuthService from "../services/auth.service";
-import ListGroup from "react-bootstrap/ListGroup";
 import Prescription from "./prescription.component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSyncAlt } from "@fortawesome/fontawesome-free-solid";
 
 function PatientDocuments({ doctor }) {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [documents, setDocuments] = useState([]);
 
-  useEffect(() => {
-    var interval;
-    setLoading(true);
-    try {
-      interval = setInterval(() => {
-        AuthService.getPatientDocuments(setDocuments);
-      }, 1000);
+  // useEffect(() => {
+  //   var interval;
+  //   setLoading(true);
+  //   try {
+  //     interval = setInterval(() => {
+  //       AuthService.getPatientDocuments(setDocuments);
+  //     }, 1000);
 
-      return () => {
-        console.log("Interval Cleared");
-        clearInterval(interval);
-      };
-    } catch (err) {
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  //     return () => {
+  //       console.log("Interval Cleared");
+  //       clearInterval(interval);
+  //     };
+  //   } catch (err) {
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
   return isLoading ? (
     <div> LOADING</div>
@@ -53,7 +54,7 @@ function PatientDocuments({ doctor }) {
             overflowX: "hidden",
           }}
         >
-          <div class="card-header">
+          <div class="card-header" style={{ display: "inline-flex" }}>
             <h1
               style={{
                 alignSelf: "center",
@@ -61,38 +62,70 @@ function PatientDocuments({ doctor }) {
                 fontSize: "20px",
                 display: "flex",
                 color: "#5e17eb",
-                marginLeft: "15%",
+                marginLeft: "5%",
               }}
             >
-              Documents Shared
+              Documents Shared{" "}
+              <FontAwesomeIcon
+                icon={faSyncAlt}
+                onClick={() => {
+                  try {
+                    AuthService.getPatientDocuments(setDocuments);
+                  } catch (err) {
+                    console.log(err);
+                  }
+                }}
+                style={{
+                  fontSize: "25px",
+                  color: "#5e17eb",
+                  marginLeft: "15px",
+                  marginRight: "5px",
+                  float: "right",
+                }}
+              />
             </h1>
           </div>
-          {documents.length ? documents
-            .sort((a, b) => a.id - b.id)
-            .map((document) => (
-              <div
-                class="card text-white mb-3"
+          {documents.length ? (
+            documents
+              .sort((a, b) => a.id - b.id)
+              .map((document) => (
+                <div
+                  class="card text-white mb-3"
+                  style={{
+                    width: "270px",
+                    marginLeft: "1px",
+                    marginTop: "5px",
+                    borderRadius: "5px",
+                    height: "fit-content",
+                    display: "inline-flex",
+                  }}
+                >
+                  {" "}
+                  <p style={{ color: "#5e17eb" }}>{document.name}</p>
+                  <button
+                    class="btn btn-outline-success"
+                    style={{ marginTop: "5px" }}
+                    onClick={() => {
+                      AuthService.downloadPatientDocument(document.id);
+                    }}
+                  >
+                    Download
+                  </button>
+                </div>
+              ))
+          ) : (
+            <div>
+              <p
                 style={{
-                  width: "270px",
-                  marginLeft: "1px",
-                  marginTop: "5px",
-                  borderRadius: "5px",
-                  height: "fit-content",
-                  display: "inline-flex",
+                  marginLeft: "17%",
+                  marginTop: "25%",
+                  fontWeight: "bold",
                 }}
               >
-                {" "}
-                <p style={{ color: "#5e17eb" }}>{document.name}</p>
-                <button
-                  class="btn btn-outline-success"
-                  style={{ marginTop: "5px" }}
-                  onClick={() => { AuthService.downloadPatientDocument(document.id); }
-                  }
-                >
-                  Download
-                </button>
-              </div>
-            )) : <div><p style={{ marginLeft: "17%", marginTop: "25%", fontWeight: "bold" }}>- No Available Documents -</p></div>}
+                - No Available Documents -
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

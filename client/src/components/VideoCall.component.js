@@ -26,8 +26,8 @@ function VideoCall() {
   const [isQSet, setQ] = useState(false);
   const [open, setOpen] = useState(false);
   const [documents, setDocuments] = useState([]);
-  const [ notification, setNotification ] = useState(null)
-  const [ notificationType, setNotificationType ] = useState(null)
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState(null);
   const [notify, setNotify] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -61,12 +61,12 @@ function VideoCall() {
     rtcProps["channel"] = channelName;
   });
 
-  const getDoctor = async(setDoctor) => {
+  const getDoctor = async (setDoctor) => {
     await axios
       .get(`${urlBase}/doctor/getDoctorById/${user.id}`, config)
       .then((json) => {
         setDoctor(json.data);
-        console.log("******",json.data);
+        console.log("******", json.data);
         return json.data;
       })
       .catch((error) => {
@@ -75,21 +75,20 @@ function VideoCall() {
   };
 
   const notificationHandler = (message, type) => {
-    setNotification(message)
-    setNotificationType(type)
-    setNotify(true)
+    setNotification(message);
+    setNotificationType(type);
+    setNotify(true);
 
     setTimeout(() => {
-      setNotificationType(null)
-      setNotification(null)
-      setNotify(false)  
-
-    }, 2500)
-  }
+      setNotificationType(null);
+      setNotification(null);
+      setNotify(false);
+    }, 2500);
+  };
 
   const updateDoctor = (setDoctor) => {
     axios
-      .post(`${urlBase}/doctor/updateDoctor`, doctor, config)
+      .post(`${urlBase}/doctor/updateDoctorCall`, doctor, config)
       .then(() => {
         getDoctor(setDoctor);
       })
@@ -109,21 +108,27 @@ function VideoCall() {
   const updateQLimit = async (event) => {
     console.log(isQueueLimit);
     setQ(true);
-    authService.setQueueLimit(doctor.id, isQueueLimit).then(()=>{
-      notificationHandler(`Queue Limit is set to value ${isQueueLimit}!`, 'success')
-      getDoctor(setDoctor);
-      console.log(doctor)
-    },(error) => {
-      const resMessage =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
+    authService.setQueueLimit(doctor.id, isQueueLimit).then(
+      () => {
+        notificationHandler(
+          `Queue Limit is set to value ${isQueueLimit}!`,
+          "success"
+        );
+        getDoctor(setDoctor);
+        console.log(doctor);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
         setMessage(resMessage);
-      this.notificationHandler(`Error while setting Queue Limit`, 'error');
-    });
+        this.notificationHandler(`Error while setting Queue Limit`, "error");
+      }
+    );
   };
 
   const acceptPatient = async () => {
@@ -189,15 +194,13 @@ function VideoCall() {
 
   const callbacks = {
     EndCall: () => {
-        getDoctor(setDoctor);
-          doctor.channel_name = null;
-          doctor.token = null;
-          doctor.online_status = false;
-          setDoctor(doctor);
-          updateDoctor(setDoctor);
-          authService.removePatients(doctor.id); 
-          setVideoCall(false);
-        
+      doctor.channel_name = null;
+      doctor.token = null;
+      doctor.online_status = false;
+      setDoctor(doctor);
+      updateDoctor(setDoctor);
+      authService.removePatients(doctor.id);
+      setVideoCall(false);
     },
     "user-joined": () => console.log("User Joined"),
     "user-left": () => {
@@ -238,22 +241,47 @@ function VideoCall() {
         </Row>
         <div className={open ? "confirm show" : "confirm"}>
           <div className="confirm-content">
-            <h4 style={{ color: "orange",fontSize:"21px" }}>CONFIRM</h4>
+            <h4 style={{ color: "orange", fontSize: "21px" }}>CONFIRM</h4>
             <div>
               <h2
-                style={{ marginTop: "25px", fontSize: "21px", fontWeight:"bold", color: "#5e17eb", textAlign:"center" }}
+                style={{
+                  marginTop: "25px",
+                  fontSize: "21px",
+                  fontWeight: "bold",
+                  color: "#5e17eb",
+                  textAlign: "center",
+                }}
               >
-                Accept Next Patient or Quit Consultation ? 
-                <br></br>
-                <small style={{color:"red"}}>(Quitting will clear the remaining queue)</small>
+                Accept Next Patient or Quit Consultation ?<br></br>
+                <small style={{ color: "red" }}>
+                  (Quitting will clear the remaining queue)
+                </small>
               </h2>
             </div>
           </div>
           <div className="confirm-btns">
-            <button class="btn btn-outline-success btn-lg" style={{marginLeft:"12px",marginTop:"18px", width:"160px", height:"50px"}}  onClick={() => acceptedPatient()}>
+            <button
+              class="btn btn-outline-success btn-lg"
+              style={{
+                marginLeft: "12px",
+                marginTop: "18px",
+                width: "160px",
+                height: "50px",
+              }}
+              onClick={() => acceptedPatient()}
+            >
               Allow
             </button>
-            <button class="btn btn-outline-danger btn-lg" style={{marginLeft:"12px",marginTop:"18px", width:"160px", height:"50px"}} onClick={() => rejectedPatient()}>
+            <button
+              class="btn btn-outline-danger btn-lg"
+              style={{
+                marginLeft: "12px",
+                marginTop: "18px",
+                width: "160px",
+                height: "50px",
+              }}
+              onClick={() => rejectedPatient()}
+            >
               Quit
             </button>
           </div>
@@ -263,7 +291,11 @@ function VideoCall() {
     </div>
   ) : (
     <div>
-      <Notification notify={notify} notification={notification} type={notificationType} />
+      <Notification
+        notify={notify}
+        notification={notification}
+        type={notificationType}
+      />
       <div
         style={{ display: "inline-flex", marginLeft: "43%", marginTop: "15%" }}
       >
