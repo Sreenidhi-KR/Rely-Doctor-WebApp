@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const urlBase = "https://localhost:8080/api";
+const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api";
 var user = JSON.parse(localStorage.getItem("doctor"));
 console.log(urlBase)
 var config = null;
@@ -132,22 +132,21 @@ class AuthService {
       }
   }
 
-  getDoctor = (setDoctor) => {
+  getDoctor = async(setDoctor) => {
     this.refreshTokenGeneration()
-    setTimeout(() => {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
       const id = JSON.parse(localStorage.getItem("doctor")).id;
-    axios
+    await axios
       .get(`${urlBase}/v1/doctor/getDoctorById/${id}`, config)
       .then((json) => {
         setDoctor(json.data);
-        console.log(json.data);
+        console.log("rsssssssssss",json.data);
         return json.data;
       })
       .catch((error) => {
         console.log(error);
       });
-    }, 1000);
-
   };
 
   getPreviousConsultations = async () => {

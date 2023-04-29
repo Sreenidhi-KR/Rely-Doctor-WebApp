@@ -94,7 +94,7 @@ export default function Dashboard() {
             setDataPoints(res);
             updateData(res)
             setLoading(false);
-        }
+        }   
         await fetchData();
         return () => {
             console.log("This will be logged on unmount");
