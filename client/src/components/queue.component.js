@@ -142,6 +142,16 @@ function DoctorQueue() {
                     >
                       Blood Group: {patient.blood_group}
                     </p>
+                    <p
+                      class="card-text"
+                      style={{
+                        color: "#5e17eb",
+                        fontWeight: "italic",
+                        fontSize: "18px",
+                      }}
+                    >
+                      Date Of Birth: {patient.DOB}
+                    </p>
                   </div>
                 )}
                 <button
