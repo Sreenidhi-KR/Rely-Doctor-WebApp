@@ -27,7 +27,7 @@ function DoctorQueue() {
       AuthService.getPatientsInQueue(setPatients);
       interval = setInterval(() => {
         AuthService.getPatientsInQueue(setPatients);
-      }, 10000);
+      }, 5000);
 
       return () => {
         console.log("Interval Cleared");
@@ -150,7 +150,7 @@ function DoctorQueue() {
                         fontSize: "18px",
                       }}
                     >
-                      Date Of Birth: {patient.DOB}
+                      Date Of Birth: {patient.dob}
                     </p>
                   </div>
                 )}
