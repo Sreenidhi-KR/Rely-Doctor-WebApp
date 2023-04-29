@@ -14,7 +14,7 @@ import Notification from "./notification-component";
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
-const urlBase = "https://localhost:8080/api/v1";
+const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -61,12 +61,12 @@ function VideoCall() {
     rtcProps["channel"] = channelName;
   });
 
-  const getDoctor = (setDoctor) => {
-    axios
+  const getDoctor = async(setDoctor) => {
+    await axios
       .get(`${urlBase}/doctor/getDoctorById/${user.id}`, config)
       .then((json) => {
         setDoctor(json.data);
-        console.log(json.data);
+        console.log("******",json.data);
         return json.data;
       })
       .catch((error) => {
@@ -183,22 +183,21 @@ function VideoCall() {
 
   window.addEventListener("beforeunload", (ev) => {
     ev.preventDefault();
-    doctor.online_status = false;
-    updateDoctor(setDoctor);
-    authService.removePatients(doctor.id);
     callbacks.EndCall();
     return null;
   });
 
   const callbacks = {
     EndCall: () => {
-      doctor.channel_name = null;
-      doctor.token = null;
-      doctor.online_status = false;
-      setDoctor(doctor);
-      updateDoctor(setDoctor);
-      authService.removePatients(doctor.id); 
-      setVideoCall(false);
+        getDoctor(setDoctor);
+          doctor.channel_name = null;
+          doctor.token = null;
+          doctor.online_status = false;
+          setDoctor(doctor);
+          updateDoctor(setDoctor);
+          authService.removePatients(doctor.id); 
+          setVideoCall(false);
+        
     },
     "user-joined": () => console.log("User Joined"),
     "user-left": () => {

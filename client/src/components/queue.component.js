@@ -177,7 +177,7 @@ function DoctorQueue() {
                   color: "#5e17eb",
                 }}
               >
-                Fname lname
+                {patient.fname} {patient.lname}
               </div>
             </div>
           );
