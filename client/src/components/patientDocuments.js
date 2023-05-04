@@ -8,23 +8,6 @@ function PatientDocuments({ doctor }) {
   const [isLoading, setLoading] = useState(false);
   const [documents, setDocuments] = useState([]);
 
-  // useEffect(() => {
-  //   var interval;
-  //   setLoading(true);
-  //   try {
-  //     interval = setInterval(() => {
-  //       AuthService.getPatientDocuments(setDocuments);
-  //     }, 1000);
-
-  //     return () => {
-  //       console.log("Interval Cleared");
-  //       clearInterval(interval);
-  //     };
-  //   } catch (err) {
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, []);
 
   return isLoading ? (
     <div> LOADING</div>

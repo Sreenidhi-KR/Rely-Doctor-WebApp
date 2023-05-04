@@ -9,7 +9,6 @@ function Profile() {
     AuthService.getDoctor(setDoctor);
     AuthService.getPhoto(setImg);
   }
-  console.log(doctor);
 
   return (
     <div>

@@ -30,7 +30,6 @@ function DoctorQueue() {
       }, 5000);
 
       return () => {
-        console.log("Interval Cleared");
         clearInterval(interval);
       };
     } catch (err) {

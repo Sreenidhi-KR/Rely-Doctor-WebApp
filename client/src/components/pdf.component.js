@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Pdf from "react-to-pdf";
 import authService from "../services/auth.service";
 import Notification from "./notification-component";
+import  secureLocalStorage  from  "react-secure-storage";
 
 const ref = React.createRef();
 
@@ -31,8 +32,7 @@ const PDF = (props) => {
   };
 
   const handlePrescriptionUpload = (file) => {
-    console.log("Handle Prescription");
-    const id = JSON.parse(localStorage.getItem("doctor")).id;
+    const id = JSON.parse(secureLocalStorage.getItem("doctor")).id;
     authService.uploadPrescription(id, file).then(
       () => {
         notificationHandler(`Uploaded Prescription!`, "success");
@@ -51,8 +51,6 @@ const PDF = (props) => {
     );
   };
 
-  console.log(props.formFields);
-  console.log(props.doctor);
   return (
     <>
       <section

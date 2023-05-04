@@ -6,11 +6,12 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import "../../src/index.css";
 import AuthService from "../services/auth.service";
 import Notification from "./notification-component";
+import  secureLocalStorage  from  "react-secure-storage";
+
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 export default function Dashboard() {
-    const doctor = JSON.parse(localStorage.getItem("doctor"));
-    console.log(doctor)
+    const doctor = JSON.parse(secureLocalStorage.getItem("doctor"));
     const [consultations, setConsultations] = useState([]);
     const [isLoading, setLoading] = useState(true);
     const [dataPoints, setDataPoints] = useState([]);
@@ -27,8 +28,6 @@ export default function Dashboard() {
     var chart;
 
     const updateData = (dataPoints) => {
-        console.log("START")
-        console.log("data", dataPoints)
         for (var i = 0; i < dataPoints.length; i++) {
             dataPnts.push({
                 x: new Date(dataPoints[i].x),
@@ -47,10 +46,7 @@ export default function Dashboard() {
                 dataPoints: dataPnts
             }]
         });
-        console.log("data", dataPoints)
-        console.log("&&&&&&&&&&&&&&&&&&&&&&&", consultations)
         chart.render();
-        console.log("END")
     }
 
     const notificationHandler = (message, type) => {
