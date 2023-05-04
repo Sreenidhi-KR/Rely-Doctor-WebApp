@@ -10,11 +10,12 @@ import PatientDocuments from "../components/patientDocuments";
 import DoctorQueue from "./queue.component";
 import authService from "../services/auth.service";
 import Notification from "./notification-component";
+import  secureLocalStorage  from  "react-secure-storage";
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
 const { RtcTokenBuilder, RtcRole } = require("agora-access-token");
 
-const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api/v1";
+const urlBase = "https://localhost:8080/api/v1";
 
 function VideoCall() {
   const [videoCall, setVideoCall] = useState(false);
@@ -30,9 +31,9 @@ function VideoCall() {
   const [notificationType, setNotificationType] = useState(null);
   const [notify, setNotify] = useState(false);
   const [message, setMessage] = useState("");
+  const [ended, setEnded] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem("doctor"));
-  console.log(user.id);
+  const user = JSON.parse(secureLocalStorage.getItem("doctor"));
 
   const config = {
     headers: {
@@ -66,7 +67,6 @@ function VideoCall() {
       .get(`${urlBase}/doctor/getDoctorById/${user.id}`, config)
       .then((json) => {
         setDoctor(json.data);
-        console.log("******", json.data);
         return json.data;
       })
       .catch((error) => {
@@ -100,13 +100,11 @@ function VideoCall() {
 
   const handleConfirm = (result) => {
     if (result) {
-      console.log("some action...");
     }
     setOpen(false);
   };
 
   const updateQLimit = async (event) => {
-    console.log(isQueueLimit);
     setQ(true);
     authService.setQueueLimit(doctor.id, isQueueLimit).then(
       () => {
@@ -115,7 +113,6 @@ function VideoCall() {
           "success"
         );
         getDoctor(setDoctor);
-        console.log(doctor);
       },
       (error) => {
         const resMessage =
@@ -156,6 +153,7 @@ function VideoCall() {
   };
 
   const handle = (event) => {
+    setEnded(true);
     var strng = doctor.userName + doctor.id;
     setChannelName(strng);
   };
@@ -175,25 +173,23 @@ function VideoCall() {
     doctor.token = tok;
     doctor.channel_name = channelId;
     doctor.online_status = true;
-    console.log(
-      "###############################################################################################-",
-      tok
-    );
     setDoctor(doctor);
     updateDoctor(setDoctor);
-    console.log("XXXXXXX", doctor);
     setVideoCall(true);
     acceptPatient();
   };
 
   window.addEventListener("beforeunload", (ev) => {
     ev.preventDefault();
-    callbacks.EndCall();
+    if(ended){
+      callbacks.EndCall()
+    }
     return null;
   });
 
   const callbacks = {
     EndCall: () => {
+      setEnded(false)
       doctor.channel_name = null;
       doctor.token = null;
       doctor.online_status = false;
@@ -201,6 +197,7 @@ function VideoCall() {
       updateDoctor(setDoctor);
       authService.removePatients(doctor.id);
       setVideoCall(false);
+      
     },
     "user-joined": () => console.log("User Joined"),
     "user-left": () => {
@@ -211,7 +208,6 @@ function VideoCall() {
   async function getConsultationId() {
     let cid = await AuthService.getConsultationId();
     setConsultationId(cid);
-    console.log("+++++", cid);
   }
 
   return videoCall ? (
@@ -323,7 +319,6 @@ function VideoCall() {
           value={isQueueLimit}
           placeholder={doctor.limit}
           onChange={(e) => {
-            console.log(e.target.value);
             setQueueLimit(e.target.value);
           }}
         ></input>

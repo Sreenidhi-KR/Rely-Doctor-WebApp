@@ -33,7 +33,6 @@ function Prescription(doctor) {
 
   const addFields = (e) => {
     setTablet(tablet+1)
-    console.log("tablest",tablet);
     e.preventDefault();
     let object = {
       Name: "",
@@ -55,7 +54,6 @@ function Prescription(doctor) {
     authService.setFollowDate(followUpDate);
     setDisplay("none");
     e.preventDefault();
-    console.log("abc");
     setPostSubmitted(true);
   };
 
