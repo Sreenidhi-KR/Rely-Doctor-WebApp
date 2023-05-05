@@ -19,6 +19,14 @@ const PDF = (props) => {
   const [notify, setNotify] = useState(false);
   const [message, setMessage] = useState("");
 
+  let newDate = new Date()
+  let date = newDate.getDate();
+  let month = newDate.getMonth() + 1;
+  let year = newDate.getFullYear();
+
+  console.log(newDate)
+  var name=props.doctor.doctor.fname+"_"+props.doctor.doctor.lname+"_"+date+"-"+month+"-"+year+".pdf"
+  
   const notificationHandler = (message, type) => {
     setNotification(message);
     setNotificationType(type);
@@ -101,7 +109,7 @@ const PDF = (props) => {
                       </label>
                       <br></br>
                       <label class="form-label" for="form6Example2">
-                        Phone No : +91 9999888800
+                        Phone No : {props.doctor.doctor.phoneNo}
                       </label>
                     </div>
                   </div>
@@ -121,8 +129,7 @@ const PDF = (props) => {
                           for="form6Example1"
                           style={{ display: "inline-flex" }}
                         >
-                          <p style={{ fontWeight: "bold" }}>Name : </p> &nbsp;
-                          {props.patientFname} {props.patientLname}
+                          <p style={{ fontWeight: "bold" }}>Name : {props.patientFname} {props.patientLname}</p>
                         </label>
                       </div>
                     </div>
@@ -155,9 +162,8 @@ const PDF = (props) => {
                                     style={{ display: "inline-flex" }}
                                   >
                                     <p style={{ fontWeight: "bold" }}>
-                                      Drug Name :{" "}
+                                      Drug Name :{" "} {form.Name}
                                     </p>{" "}
-                                    &nbsp;{form.Name}
                                   </label>
                                   <div style={{ display: "inline-flex" }}>
                                     <div
@@ -258,25 +264,25 @@ const PDF = (props) => {
                     <div class="col">
                       <div class="form-outline">
                         <label class="form-label" for="form6Example1">
-                          <p style={{ fontWeight: "bold" }}>Symptoms</p> &nbsp;{" "}
-                          {props.symptoms}
+                          <p style={{ fontWeight: "bold" }}>Symptoms</p>
+                          <p>{props.symptoms}</p>
                         </label>
                       </div>
                     </div>
                     <div class="col">
                       <div class="form-outline">
                         <label class="form-label" for="form6Example1">
-                          <p style={{ fontWeight: "bold" }}>Remarks</p> &nbsp;
-                          {props.remarks}
+                          <p style={{ fontWeight: "bold" }}>Remarks</p>
+                          <p>{props.remarks}</p>
                         </label>
                       </div>
                     </div>
                   </div>
                   <hr class="my-4" />
                   <label class="form-label" for="formCardNumber">
-                    Follow Up Date
+                    <p style={{fontWeight:"bold"}}>Follow Up Date</p>
+                    <p>{props.followUpDate}</p>
                   </label>
-                  <p>{props.followUpDate}</p>
                 </form>
               </div>
             </div>
@@ -284,7 +290,7 @@ const PDF = (props) => {
         </div>
       </section>
       <div style={{ display: "inline-flex" }}>
-        <Pdf targetRef={ref} filename="prescription.pdf">
+        <Pdf targetRef={ref} filename={name}>
           {({ toPdf }) => (
             <button
               style={{

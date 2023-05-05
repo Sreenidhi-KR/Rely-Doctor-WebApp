@@ -62,7 +62,7 @@ function Prescription(doctor) {
       setShow(false);
       setDisplay("show")
       setPostSubmitted(false);
-  }.bind(this), 2000)
+  }.bind(this), 2)
   }
 
   return (
@@ -106,7 +106,7 @@ function Prescription(doctor) {
                         </label>
                         <br></br>
                         <label class="form-label" for="form6Example2">
-                          Phone No : +91 9999888800
+                          Phone No : {doctor.doctor.phoneNo}
                         </label>
                       </div>
                     </div>
