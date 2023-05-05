@@ -1,7 +1,7 @@
 import axios from "axios";
 import  secureLocalStorage  from  "react-secure-storage";
 
-const urlBase = "https://localhost:8080/api";
+const urlBase = "https://c5c5-103-156-19-229.ngrok-free.app/api";
 var user = JSON.parse(secureLocalStorage.getItem("doctor"));
 var config = null;
 
