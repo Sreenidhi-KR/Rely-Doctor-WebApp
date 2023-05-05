@@ -56,8 +56,9 @@ class AuthService {
   }
 
   logout = async()=>{
+    const id = JSON.parse(secureLocalStorage.getItem("doctor")).id;
+    secureLocalStorage.removeItem("doctor");
     try{
-      const id = JSON.parse(secureLocalStorage.getItem("doctor")).id;
       let l = await axios.post(
         `${urlBase}/auth/doctor/signout/${id}`,{},
         config
@@ -65,7 +66,6 @@ class AuthService {
     } catch (e) {
       console.log(e);
     }
-    secureLocalStorage.removeItem("doctor");
     }
 
   getCurrentUser() {
@@ -377,7 +377,7 @@ class AuthService {
   acceptPatient = async (bool) => {
     try {
       this.refreshTokenGeneration()
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1));
 
       const doctorId = JSON.parse(secureLocalStorage.getItem("doctor")).id;
 
@@ -399,7 +399,7 @@ class AuthService {
   removePatientFromQueue = async (patientId) => {
     try {
       this.refreshTokenGeneration()
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise(resolve => setTimeout(resolve, 1));
 
       
       const doctorId = JSON.parse(secureLocalStorage.getItem("doctor")).id;
