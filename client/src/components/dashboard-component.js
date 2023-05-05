@@ -114,7 +114,7 @@ export default function Dashboard() {
                         <div className="row">
                             <div class="tile job" style={{ marginLeft: "70px" }}>
                                 <div class="header">
-                                    {isLoading ? <div class="loader" style={{ marginLeft: "60px", marginTop: "30px" }}></div> : <div class="count">{doctors.rating}<FontAwesomeIcon icon={faStar} style={{ color: "#f9b41f", marginLeft: "3px" }} /></div>}
+                                    {isLoading ? <div class="loader" style={{ marginLeft: "60px", marginTop: "30px" }}></div> : <div class="count">{parseFloat(doctors.rating).toFixed(1)}<FontAwesomeIcon icon={faStar} style={{ color: "#f9b41f", marginLeft: "3px" }} /></div>}
                                 </div>
                                 <div class="body">
                                     <div class="title">Rating</div>

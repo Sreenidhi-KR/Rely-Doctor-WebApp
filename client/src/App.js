@@ -43,10 +43,10 @@ class App extends Component {
   }
 
   logOut() {
-    AuthService.logout();
     this.setState({
       currentUser: undefined,
     });
+    AuthService.logout();
   }
 
   render() {
